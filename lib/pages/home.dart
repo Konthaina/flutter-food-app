@@ -47,94 +47,7 @@ class _HomePageState extends State<HomePage> {
           SizedBox(height: 16),
           _deitSection(),
           SizedBox(height: 16),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16.0,
-                  vertical: 8,
-                ),
-                child: Text(
-                  'ពេញនិយម', // "Popular" in Khmer
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w100),
-                ),
-              ),
-              SizedBox(height: 12),
-              ListView.separated(
-                separatorBuilder: (context, index) => SizedBox(height: 12),
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                shrinkWrap: true,
-                itemCount: popularList.length,
-                itemBuilder: (context, index) {
-                  return Container(
-                    height: 115,
-                    decoration: BoxDecoration(
-                      color: popularList[index].boxIsSelected
-                          ? Color(0xFFB2DFDB)
-                          : Colors.transparent,
-                      borderRadius: BorderRadius.circular(16),
-                      boxShadow: popularList[index].boxIsSelected
-                          ? [
-                              BoxShadow(
-                                color: Colors.teal.withValues(alpha: 0.2),
-                                offset: Offset(0, 4),
-                                spreadRadius: 0,
-                                blurRadius: 40,
-                              ),
-                            ]
-                          : [],
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Image.asset(
-                          popularList[index].iconPath,
-                          height: 60,
-                          width: 60,
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              popularList[index].name,
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w800,
-                                color: Colors.grey[800],
-                              ),
-                            ),
-                            Text(
-                              '${popularList[index].duration} | ${popularList[index].calorie}',
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.grey[600],
-                              ),
-                            ),
-                          ],
-                        ),
-                        GestureDetector(
-                          onTap: () {},
-                          child: SvgPicture.asset(
-                            'assets/icons/box-arrow-in-up-right.svg',
-                            width: 20,
-                            height: 20,
-                            fit: BoxFit.contain,
-                            colorFilter: const ColorFilter.mode(
-                              Colors.grey,
-                              BlendMode.srcIn,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ],
-          ),
+          _popularSection(),
           // Expanded(
           //   child: Center(
           //     child: Text(
@@ -151,6 +64,95 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.teal,
         child: const Icon(Icons.add, color: Colors.white),
       ),
+    );
+  }
+
+  Column _popularSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+          child: Text(
+            'ពេញនិយម', // "Popular" in Khmer
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w100),
+          ),
+        ),
+        SizedBox(height: 12),
+        ListView.separated(
+          physics: const NeverScrollableScrollPhysics(),
+          separatorBuilder: (context, index) => SizedBox(height: 12),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          shrinkWrap: true,
+          itemCount: popularList.length,
+          itemBuilder: (context, index) {
+            return Container(
+              height: 115,
+              decoration: BoxDecoration(
+                color: popularList[index].boxIsSelected
+                    ? Color(0xFFB2DFDB)
+                    : Colors.transparent,
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: popularList[index].boxIsSelected
+                    ? [
+                        BoxShadow(
+                          color: Colors.teal.withValues(alpha: 0.2),
+                          offset: Offset(0, 4),
+                          spreadRadius: 0,
+                          blurRadius: 40,
+                        ),
+                      ]
+                    : [],
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Image.asset(
+                    popularList[index].iconPath,
+                    height: 60,
+                    width: 60,
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        popularList[index].name,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w800,
+                          color: Colors.grey[800],
+                        ),
+                      ),
+                      Text(
+                        '${popularList[index].duration} | ${popularList[index].calorie}',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.grey[600],
+                        ),
+                      ),
+                    ],
+                  ),
+                  GestureDetector(
+                    onTap: () {},
+                    child: SvgPicture.asset(
+                      'assets/icons/box-arrow-in-up-right.svg',
+                      width: 20,
+                      height: 20,
+                      fit: BoxFit.contain,
+                      colorFilter: const ColorFilter.mode(
+                        Colors.grey,
+                        BlendMode.srcIn,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
+      ],
     );
   }
 
