@@ -48,14 +48,7 @@ class _HomePageState extends State<HomePage> {
           _deitSection(),
           SizedBox(height: 16),
           _popularSection(),
-          // Expanded(
-          //   child: Center(
-          //     child: Text(
-          //       'ស្វាគមន៍មកកាន់ទំព័រដើម!', // "Welcome to the Home Page!" in Khmer
-          //       style: TextStyle(fontSize: 18, color: Colors.grey[600]),
-          //     ),
-          //   ),
-          // ),
+          _createBySection(),
         ],
       ),
 
@@ -64,6 +57,33 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.teal,
         child: const Icon(Icons.add, color: Colors.white),
       ),
+    );
+  }
+
+  Column _createBySection() {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 24.0),
+          child: SizedBox(
+            width: double.infinity,
+            child: Column(
+              children: [
+                Text(
+                  'បង្កើតដោយ៖ គន់​ ថៃណា', // "Created by: Kun Thaina" in Khmer
+                  style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+                  textAlign: TextAlign.center,
+                ),
+                Text(
+                  'សម្រាប់មេរៀន Flutter ជាមួយ App Maker Club', // "For Flutter lessons with App Maker Club" in Khmer
+                  style: TextStyle(fontSize: 10, color: Colors.grey[400]),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 
