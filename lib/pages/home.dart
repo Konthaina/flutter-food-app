@@ -353,7 +353,7 @@ class _HomePageState extends State<HomePage> {
       ),
       actions: [
         GestureDetector(
-          onTap: () {},
+          onTap: _onTap,
           child: Container(
             alignment: Alignment.center,
             width: 37,
@@ -375,6 +375,71 @@ class _HomePageState extends State<HomePage> {
         ),
       ],
       centerTitle: true,
+    );
+  }
+
+  void _onTap() {
+    showModalBottomSheet(
+      context: context,
+      elevation: 10,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (_) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(height: 10),
+            Container(
+              width: 52, // size (width)
+              height: 5, // size (height)
+              decoration: BoxDecoration(
+                color: Colors.teal[300], // ✅ color
+                borderRadius: BorderRadius.circular(99),
+              ),
+            ),
+            ListTile(
+              iconColor: Colors.teal,
+              leading: const Icon(Icons.person),
+              title: const Text(
+                'Profile',
+                style: TextStyle(
+                  color: Colors.teal,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              onTap: () => Navigator.pop(context),
+            ),
+            ListTile(
+              iconColor: Colors.teal,
+              leading: const Icon(Icons.settings),
+              title: const Text(
+                'Settings',
+                style: TextStyle(
+                  color: Colors.teal,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              onTap: () => Navigator.pop(context),
+            ),
+            ListTile(
+              iconColor: Colors.red[300],
+              leading: const Icon(Icons.logout),
+              title: Text(
+                'Logout',
+                style: TextStyle(
+                  color: Colors.red[300]!,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              onTap: () => Navigator.pop(context),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
