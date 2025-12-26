@@ -1,6 +1,7 @@
 import 'package:first_app/models/catagory_model.dart';
 import 'package:first_app/models/diet_model.dart';
 import 'package:first_app/models/popular_model.dart';
+import 'package:first_app/models/profile_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -14,7 +15,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   List<CatagoryModel> catagoryList = [];
   List<DietModel> dietList = [];
-  List popularList = [];
+  List<PopularModel> popularList = [];
+  List<ProfileModel> profile = [];
 
   void _getCatagoryList() {
     catagoryList = CatagoryModel.getCatagoryList();
@@ -28,10 +30,15 @@ class _HomePageState extends State<HomePage> {
     popularList = PopularModel.getPopularList();
   }
 
+  void _getDefaultProfile() {
+    profile = ProfileModel.getDefaultProfile();
+  }
+
   void _getInitailInfo() {
     _getCatagoryList();
     _getDietList();
     _getPopularList();
+    _getDefaultProfile();
   }
 
   @override
@@ -39,7 +46,7 @@ class _HomePageState extends State<HomePage> {
     _getInitailInfo();
     return Scaffold(
       appBar: appBar(),
-
+      drawer: _buildDrawer(),
       body: ListView(
         children: [
           _searchField(),
@@ -334,20 +341,17 @@ class _HomePageState extends State<HomePage> {
           fontSize: 24,
         ),
       ),
-      leading: GestureDetector(
-        onTap: () {},
-        child: Container(
-          alignment: Alignment.center,
-          margin: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            color: Color(0xFF00897B),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: SvgPicture.asset(
-            'assets/icons/arrow-left.svg',
-            colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
-            width: 20,
-            height: 20,
+      leading: Builder(
+        builder: (context) => GestureDetector(
+          onTap: () => Scaffold.of(context).openDrawer(),
+          child: Container(
+            alignment: Alignment.center,
+            margin: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: Color(0xFF00897B),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Icon(Icons.menu_rounded, color: Colors.white, size: 24),
           ),
         ),
       ),
@@ -375,6 +379,170 @@ class _HomePageState extends State<HomePage> {
         ),
       ],
       centerTitle: true,
+    );
+  }
+
+  Widget _buildDrawer() {
+    return Drawer(
+      child: Column(
+        children: [
+          // Profile Header Section
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.only(
+              top: 50,
+              bottom: 24,
+              left: 20,
+              right: 20,
+            ),
+            decoration: BoxDecoration(color: Colors.teal),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Avatar
+                Container(
+                  width: 80,
+                  height: 80,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.white,
+                    border: Border.all(color: Colors.white, width: 3),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.2),
+                        blurRadius: 10,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
+                  ),
+                  child: ClipOval(
+                    child: SvgPicture.asset(
+                      profile[0].avatarPath!,
+                      width: 80,
+                      height: 80,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                // Name
+                Text(
+                  profile[0].name!,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                // Email
+                Text(
+                  profile[0].email!,
+                  style: TextStyle(
+                    color: Colors.white.withValues(alpha: 0.9),
+                    fontSize: 14,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          // Menu Items
+          Expanded(
+            child: ListView(
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              children: [
+                _buildDrawerItem(
+                  icon: Icons.home_rounded,
+                  title: 'ទំព័រដើម',
+                  isSelected: true,
+                  onTap: () => Navigator.pop(context),
+                ),
+                _buildDrawerItem(
+                  icon: Icons.favorite_rounded,
+                  title: 'ចំណូលចិត្ត',
+                  onTap: () => Navigator.pop(context),
+                ),
+                _buildDrawerItem(
+                  icon: Icons.restaurant_menu_rounded,
+                  title: 'មុខម្ហូប',
+                  onTap: () => Navigator.pop(context),
+                ),
+                _buildDrawerItem(
+                  icon: Icons.history_rounded,
+                  title: 'ប្រវត្តិ',
+                  onTap: () => Navigator.pop(context),
+                ),
+                const Divider(height: 32, indent: 16, endIndent: 16),
+                _buildDrawerItem(
+                  icon: Icons.person_rounded,
+                  title: 'ផ្ទាល់ខ្លួន',
+                  onTap: () => Navigator.pop(context),
+                ),
+                _buildDrawerItem(
+                  icon: Icons.settings_rounded,
+                  title: 'ការកំណត់',
+                  onTap: () => Navigator.pop(context),
+                ),
+                _buildDrawerItem(
+                  icon: Icons.help_outline_rounded,
+                  title: 'ជំនួយ',
+                  onTap: () => Navigator.pop(context),
+                ),
+              ],
+            ),
+          ),
+          // Logout Button
+          Container(
+            padding: const EdgeInsets.all(16),
+            child: ListTile(
+              leading: Icon(Icons.logout_rounded, color: Colors.red[400]),
+              title: Text(
+                'ចាក់ចេញ',
+                style: TextStyle(
+                  color: Colors.red[400],
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+                // Add logout logic here
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDrawerItem({
+    required IconData icon,
+    required String title,
+    bool isSelected = false,
+    required VoidCallback onTap,
+  }) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
+      decoration: BoxDecoration(
+        color: isSelected
+            ? Colors.teal.withValues(alpha: 0.1)
+            : Colors.transparent,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: ListTile(
+        leading: Icon(icon, color: isSelected ? Colors.teal : Colors.grey[700]),
+        title: Text(
+          title,
+          style: TextStyle(
+            color: isSelected ? Colors.teal : Colors.grey[800],
+            fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+          ),
+        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        onTap: onTap,
+      ),
     );
   }
 
