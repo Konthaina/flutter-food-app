@@ -53,7 +53,7 @@ class _HomePageState extends State<HomePage> {
       ),
 
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: _onFabPressed,
         backgroundColor: Colors.teal,
         child: const Icon(Icons.add, color: Colors.white),
       ),
@@ -229,10 +229,10 @@ class _HomePageState extends State<HomePage> {
                           colors: [
                             dietList[index].viewIsSelected
                                 ? Colors.teal
-                                : Colors.transparent,
+                                : Colors.teal[100]!,
                             dietList[index].viewIsSelected
                                 ? Colors.teal.shade700
-                                : Colors.transparent,
+                                : Colors.grey,
                           ],
                         ),
                         borderRadius: BorderRadius.circular(20),
@@ -487,5 +487,66 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+
+  Future<void> _onFabPressed() async {
+    final overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
+    final value = await showMenu<String>(
+      context: context,
+      color: Colors.white,
+      elevation: 12,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+      position: RelativeRect.fromLTRB(
+        overlay.size.width - 220, // x
+        overlay.size.height - 270, // y (near FAB)
+        16,
+        100,
+      ),
+      items: [
+        PopupMenuItem<String>(
+          value: 'add_category',
+          child: Row(
+            children: const [
+              Icon(Icons.category, color: Colors.teal),
+              SizedBox(width: 10),
+              Text(
+                'បន្ថែមប្រភេទ',
+                style: TextStyle(fontWeight: FontWeight.w600),
+              ),
+            ],
+          ),
+        ),
+        PopupMenuItem<String>(
+          value: 'add_diet',
+          child: Row(
+            children: const [
+              Icon(Icons.restaurant_menu, color: Colors.teal),
+              SizedBox(width: 10),
+              Text(
+                'បន្ថែមណែនាំ',
+                style: TextStyle(fontWeight: FontWeight.w600),
+              ),
+            ],
+          ),
+        ),
+        PopupMenuItem<String>(
+          value: 'add_popular',
+          child: Row(
+            children: [
+              Icon(Icons.logout, color: Colors.teal),
+              SizedBox(width: 10),
+              Text(
+                'បន្ថែមពេញនិយម',
+                style: TextStyle(fontWeight: FontWeight.w600),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+
+    if (value == 'add_category') {
+    } else if (value == 'add_diet') {
+    } else if (value == 'logout') {}
   }
 }
