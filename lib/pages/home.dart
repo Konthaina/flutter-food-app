@@ -498,7 +498,7 @@ class _HomePageState extends State<HomePage> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
       position: RelativeRect.fromLTRB(
         overlay.size.width - 220, // x
-        overlay.size.height - 270, // y (near FAB)
+        overlay.size.height - 250, // y (near FAB)
         16,
         100,
       ),
@@ -533,7 +533,7 @@ class _HomePageState extends State<HomePage> {
           value: 'add_popular',
           child: Row(
             children: [
-              Icon(Icons.logout, color: Colors.teal),
+              Icon(Icons.star, color: Colors.teal),
               SizedBox(width: 10),
               Text(
                 'បន្ថែមពេញនិយម',
