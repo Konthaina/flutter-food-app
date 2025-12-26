@@ -394,7 +394,7 @@ class _HomePageState extends State<HomePage> {
               width: 52, // size (width)
               height: 5, // size (height)
               decoration: BoxDecoration(
-                color: Colors.teal[300], // ✅ color
+                color: Colors.grey[300], // ✅ color
                 borderRadius: BorderRadius.circular(99),
               ),
             ),
@@ -402,7 +402,7 @@ class _HomePageState extends State<HomePage> {
               iconColor: Colors.teal,
               leading: const Icon(Icons.person),
               title: const Text(
-                'Profile',
+                'ផ្ទាល់ខ្លួន',
                 style: TextStyle(
                   color: Colors.teal,
                   fontSize: 16,
@@ -415,7 +415,7 @@ class _HomePageState extends State<HomePage> {
               iconColor: Colors.teal,
               leading: const Icon(Icons.settings),
               title: const Text(
-                'Settings',
+                'ការកំណត់',
                 style: TextStyle(
                   color: Colors.teal,
                   fontSize: 16,
@@ -428,7 +428,7 @@ class _HomePageState extends State<HomePage> {
               iconColor: Colors.red[300],
               leading: const Icon(Icons.logout),
               title: Text(
-                'Logout',
+                'ចាក់ចេញ',
                 style: TextStyle(
                   color: Colors.red[300]!,
                   fontSize: 16,
