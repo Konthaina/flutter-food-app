@@ -48,8 +48,13 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
     _getInitailInfo();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBar(),
       drawer: _buildDrawer(),
@@ -57,9 +62,9 @@ class _HomePageState extends State<HomePage> {
         children: [
           _searchField(),
           _catagorySection(),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           _deitSection(),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           _popularSection(),
           _createBySection(),
         ],
@@ -134,8 +139,8 @@ class _HomePageState extends State<HomePage> {
               decoration: BoxDecoration(
                 color: popularList[index].boxIsSelected
                     ? (isDarkMode
-                          ? Colors.teal.withOpacity(0.3)
-                          : Color(0xFFB2DFDB))
+                        ? Colors.teal.withValues(alpha: 0.3)
+                        : const Color(0xFFB2DFDB))
                     : Colors.transparent,
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: popularList[index].boxIsSelected
@@ -164,7 +169,9 @@ class _HomePageState extends State<HomePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        popularList[index].name,
+                        widget.settingsProvider.translate(
+                          popularList[index].name,
+                        ),
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w800,
@@ -172,7 +179,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       Text(
-                        '${popularList[index].duration} | ${popularList[index].calorie}',
+                        '${widget.settingsProvider.translate(popularList[index].duration)} | ${widget.settingsProvider.translate(popularList[index].calorie)}',
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
@@ -212,7 +219,7 @@ class _HomePageState extends State<HomePage> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
           child: Text(
-            'ណែនាំ', // "Diets" in Khmer
+            widget.settingsProvider.translate('diets'),
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w100,
@@ -229,8 +236,8 @@ class _HomePageState extends State<HomePage> {
                 decoration: BoxDecoration(
                   color: isDarkMode
                       ? (dietList[index].viewIsSelected
-                            ? Colors.teal.withOpacity(0.3)
-                            : Colors.grey.withOpacity(0.1))
+                          ? Colors.teal.withValues(alpha: 0.3)
+                          : Colors.grey.withValues(alpha: 0.1))
                       : dietList[index].boxColor,
                   borderRadius: BorderRadius.circular(16),
                 ),
@@ -243,7 +250,7 @@ class _HomePageState extends State<HomePage> {
                       width: 80,
                     ),
                     Text(
-                      dietList[index].name,
+                      widget.settingsProvider.translate(dietList[index].name),
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w800,
@@ -251,7 +258,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     Text(
-                      '${dietList[index].lavel} | ${dietList[index].duration} | ${dietList[index].calorie}',
+                      '${widget.settingsProvider.translate(dietList[index].lavel)} | ${widget.settingsProvider.translate(dietList[index].duration)} | ${widget.settingsProvider.translate(dietList[index].calorie)}',
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
@@ -269,8 +276,8 @@ class _HomePageState extends State<HomePage> {
                                 : Colors.teal[100]!,
                             dietList[index].viewIsSelected
                                 ? Colors.teal.shade700
-                                : Colors.grey.withOpacity(
-                                    isDarkMode ? 0.6 : 1.0,
+                                : Colors.grey.withValues(
+                                    alpha: isDarkMode ? 0.6 : 1.0,
                                   ),
                           ],
                         ),
@@ -312,7 +319,7 @@ class _HomePageState extends State<HomePage> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 0),
           child: Text(
-            'ប្រភេទ', // "Categories" in Khmer
+            widget.settingsProvider.translate('categories'),
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w100,
@@ -333,7 +340,7 @@ class _HomePageState extends State<HomePage> {
                 width: 120,
                 decoration: BoxDecoration(
                   color: isDarkMode
-                      ? catagoryList[index].boxColor!.withOpacity(0.3)
+                      ? catagoryList[index].boxColor!.withValues(alpha: 0.3)
                       : catagoryList[index].boxColor,
                   borderRadius: BorderRadius.circular(16),
                 ),
@@ -355,7 +362,9 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     Text(
-                      catagoryList[index].catagoryName!,
+                      widget.settingsProvider.translate(
+                        catagoryList[index].catagoryName!,
+                      ),
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w800,
@@ -472,7 +481,7 @@ class _HomePageState extends State<HomePage> {
                 const SizedBox(height: 16),
                 // Name
                 Text(
-                  profile[0].name!,
+                  widget.settingsProvider.translate(profile[0].name!),
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 20,
@@ -634,9 +643,9 @@ class _HomePageState extends State<HomePage> {
             ListTile(
               iconColor: Colors.teal,
               leading: const Icon(Icons.person),
-              title: const Text(
-                'ផ្ទាល់ខ្លួន',
-                style: TextStyle(
+              title: Text(
+                widget.settingsProvider.translate('profile'),
+                style: const TextStyle(
                   color: Colors.teal,
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
@@ -647,9 +656,9 @@ class _HomePageState extends State<HomePage> {
             ListTile(
               iconColor: Colors.teal,
               leading: const Icon(Icons.settings),
-              title: const Text(
-                'ការកំណត់',
-                style: TextStyle(
+              title: Text(
+                widget.settingsProvider.translate('settings'),
+                style: const TextStyle(
                   color: Colors.teal,
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
@@ -661,7 +670,7 @@ class _HomePageState extends State<HomePage> {
               iconColor: Colors.red[300],
               leading: const Icon(Icons.logout),
               title: Text(
-                'ចាក់ចេញ',
+                widget.settingsProvider.translate('logout'),
                 style: TextStyle(
                   color: Colors.red[300]!,
                   fontSize: 16,
@@ -742,8 +751,8 @@ class _HomePageState extends State<HomePage> {
       elevation: isDarkMode ? 0 : 12,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(14),
-        side: isDarkMode 
-            ? BorderSide(color: Colors.grey[800]!, width: 1) 
+        side: isDarkMode
+            ? BorderSide(color: Colors.grey[800]!, width: 1)
             : BorderSide.none,
       ),
       position: RelativeRect.fromLTRB(

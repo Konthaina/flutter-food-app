@@ -48,7 +48,9 @@ class SettingsProvider extends ChangeNotifier {
         ),
         cardColor: const Color(0xFF1E1E1E),
         canvasColor: const Color(0xFF1E1E1E),
-        dialogBackgroundColor: const Color(0xFF1E1E1E),
+        dialogTheme: const DialogThemeData(
+          backgroundColor: Color(0xFF1E1E1E),
+        ),
         dividerColor: Colors.grey[700],
         listTileTheme: ListTileThemeData(
           textColor: Colors.white,
@@ -64,19 +66,19 @@ class SettingsProvider extends ChangeNotifier {
         ),
         iconTheme: IconThemeData(color: Colors.grey[400]),
         switchTheme: SwitchThemeData(
-          thumbColor: MaterialStateProperty.resolveWith((states) {
-            if (states.contains(MaterialState.selected)) {
+          thumbColor: WidgetStateProperty.resolveWith((states) {
+            if (states.contains(WidgetState.selected)) {
               return Colors.teal;
             }
             return Colors.grey;
           }),
-          trackColor: MaterialStateProperty.resolveWith((states) {
-            if (states.contains(MaterialState.selected)) {
-              return Colors.teal.withOpacity(0.5);
+          trackColor: WidgetStateProperty.resolveWith((states) {
+            if (states.contains(WidgetState.selected)) {
+              return Colors.teal.withValues(alpha: 0.5);
             }
-            return Colors.grey.withOpacity(0.3);
+            return Colors.grey.withValues(alpha: 0.3);
           }),
-          trackOutlineColor: MaterialStateProperty.all(Colors.transparent),
+          trackOutlineColor: const WidgetStatePropertyAll(Colors.transparent),
         ),
         colorScheme: const ColorScheme.dark(
           primary: Colors.teal,
@@ -97,7 +99,9 @@ class SettingsProvider extends ChangeNotifier {
         ),
         cardColor: Colors.white,
         canvasColor: Colors.white,
-        dialogBackgroundColor: Colors.white,
+        dialogTheme: const DialogThemeData(
+          backgroundColor: Colors.white,
+        ),
         dividerColor: Colors.grey[200],
         listTileTheme: ListTileThemeData(
           textColor: Colors.grey[800],
@@ -113,19 +117,19 @@ class SettingsProvider extends ChangeNotifier {
         ),
         iconTheme: IconThemeData(color: Colors.grey[700]),
         switchTheme: SwitchThemeData(
-          thumbColor: MaterialStateProperty.resolveWith((states) {
-            if (states.contains(MaterialState.selected)) {
+          thumbColor: WidgetStateProperty.resolveWith((states) {
+            if (states.contains(WidgetState.selected)) {
               return Colors.teal;
             }
             return Colors.grey;
           }),
-          trackColor: MaterialStateProperty.resolveWith((states) {
-            if (states.contains(MaterialState.selected)) {
-              return Colors.teal.withOpacity(0.5);
+          trackColor: WidgetStateProperty.resolveWith((states) {
+            if (states.contains(WidgetState.selected)) {
+              return Colors.teal.withValues(alpha: 0.5);
             }
-            return Colors.grey.withOpacity(0.3);
+            return Colors.grey.withValues(alpha: 0.3);
           }),
-          trackOutlineColor: MaterialStateProperty.all(Colors.transparent),
+          trackOutlineColor: const WidgetStatePropertyAll(Colors.transparent),
         ),
         colorScheme: ColorScheme.light(
           primary: Colors.teal,

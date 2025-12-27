@@ -17,7 +17,7 @@ class PopularModel {
     List<PopularModel> popularList = [];
     popularList.add(
       PopularModel(
-        name: 'សាច់មាន់ចៀន', // "Grilled Chicken" in Khmer
+        name: 'diet_chicken',
         iconPath: 'assets/images/roast-chicken.png',
         duration: '10 mins',
         calorie: '150 kcal',
@@ -26,7 +26,7 @@ class PopularModel {
     );
     popularList.add(
       PopularModel(
-        name: 'ត្រីសាច់ដុត', // "Grilled Fish" in Khmer
+        name: 'diet_fish',
         iconPath: 'assets/images/fish.png',
         duration: '20 mins',
         calorie: '250 kcal',
@@ -35,7 +35,7 @@ class PopularModel {
     );
     popularList.add(
       PopularModel(
-        name: 'ក្រូសង់', // "Croissant" in Khmer
+        name: 'diet_croissant',
         iconPath: 'assets/images/croissant.png',
         duration: '15 mins',
         calorie: '100 kcal',
@@ -44,7 +44,7 @@ class PopularModel {
     );
     popularList.add(
       PopularModel(
-        name: 'គុយទាវ', // "Noodle Soup" in Khmer
+        name: 'cat_noodle',
         iconPath: 'assets/images/noodles.png',
         duration: '5 mins',
         calorie: '80 kcal',

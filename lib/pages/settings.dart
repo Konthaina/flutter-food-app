@@ -61,7 +61,9 @@ class _SettingsPageState extends State<SettingsPage> {
             _switchTile(
               icon: Icons.notifications_rounded,
               title: widget.settingsProvider.translate('notifications'),
-              subtitle: widget.settingsProvider.translate('notifications_subtitle'),
+              subtitle: widget.settingsProvider.translate(
+                'notifications_subtitle',
+              ),
               value: widget.settingsProvider.notificationsEnabled,
               onChanged: (value) {
                 widget.settingsProvider.setNotifications(value);
@@ -82,14 +84,18 @@ class _SettingsPageState extends State<SettingsPage> {
               icon: Icons.privacy_tip_outlined,
               title: widget.settingsProvider.translate('privacy_policy'),
               subtitle: widget.settingsProvider.translate('privacy_subtitle'),
-              onTap: () => _showSnackBar('គោលការណ៍ភាពឯកជន មិនទាន់មាន'),
+              onTap: () => _showSnackBar(
+                widget.settingsProvider.translate('privacy_unavailable'),
+              ),
             ),
             _divider(),
             _navigationTile(
               icon: Icons.description_outlined,
               title: widget.settingsProvider.translate('terms'),
               subtitle: widget.settingsProvider.translate('terms_subtitle'),
-              onTap: () => _showSnackBar('លក្ខខណ្ឌនៃការប្រើប្រាស់ មិនទាន់មាន'),
+              onTap: () => _showSnackBar(
+                widget.settingsProvider.translate('terms_unavailable'),
+              ),
             ),
           ]),
           const SizedBox(height: 24),
@@ -338,7 +344,10 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
           ),
         ),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 12,
+          vertical: 16,
+        ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -355,11 +364,11 @@ class _SettingsPageState extends State<SettingsPage> {
     final isSelected = widget.settingsProvider.language == language;
     return Container(
       decoration: BoxDecoration(
-        color: isSelected 
-            ? Colors.teal.withValues(alpha: 0.1) 
+        color: isSelected
+            ? Colors.teal.withValues(alpha: 0.1)
             : Colors.transparent,
         borderRadius: BorderRadius.circular(12),
-        border: isSelected 
+        border: isSelected
             ? Border.all(color: Colors.teal.withValues(alpha: 0.5), width: 1)
             : Border.all(color: Colors.transparent),
       ),
@@ -407,7 +416,11 @@ class _SettingsPageState extends State<SettingsPage> {
                   color: Colors.teal.withValues(alpha: 0.1),
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(Icons.restaurant_menu, color: Colors.teal, size: 28),
+                child: const Icon(
+                  Icons.restaurant_menu,
+                  color: Colors.teal,
+                  size: 28,
+                ),
               ),
               const SizedBox(height: 12),
               Text(
@@ -451,7 +464,10 @@ class _SettingsPageState extends State<SettingsPage> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text(widget.settingsProvider.translate('close'), style: TextStyle(color: Colors.teal)),
+            child: Text(
+              widget.settingsProvider.translate('close'),
+              style: TextStyle(color: Colors.teal),
+            ),
           ),
         ],
       ),
@@ -495,9 +511,12 @@ class _SettingsPageState extends State<SettingsPage> {
           TextButton(
             onPressed: () {
               Navigator.pop(context);
-              _showSnackBar('អ្នកបានចាកចេញពីគណនីរួចហើយ');
+              _showSnackBar(widget.settingsProvider.translate('logged_out'));
             },
-            child: Text(widget.settingsProvider.translate('logout'), style: TextStyle(color: Colors.red[400])),
+            child: Text(
+              widget.settingsProvider.translate('logout'),
+              style: TextStyle(color: Colors.red[400]),
+            ),
           ),
         ],
       ),

@@ -15,7 +15,7 @@ class ProfileModel {
     List<ProfileModel> profileList = [];
     profileList.add(
       ProfileModel(
-        name: 'គន់ ថៃណា',
+        name: 'profile_name',
         email: 'thaina@example.com',
         avatarPath: 'assets/icons/avatar.svg',
         phoneNumber: '+855 12 345 678',

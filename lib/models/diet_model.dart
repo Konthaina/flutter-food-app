@@ -24,9 +24,9 @@ class DietModel {
     List<DietModel> dietList = [];
     dietList.add(
       DietModel(
-        name: 'សាច់មាន់ចៀន', // "Grilled Chicken" in Khmer
+        name: 'diet_chicken',
         iconPath: 'assets/images/roast-chicken.png',
-        lavel: 'ងាយ', // "Easy" in Khmer
+        lavel: 'level_easy',
         duration: '10 mins',
         calorie: '150 kcal',
         viewIsSelected: true,
@@ -34,9 +34,9 @@ class DietModel {
     );
     dietList.add(
       DietModel(
-        name: 'ត្រីសាច់ដុត', // "Grilled Fish" in Khmer
+        name: 'diet_fish',
         iconPath: 'assets/images/fish.png',
-        lavel: 'មធ្យម', // "Medium" in Khmer
+        lavel: 'level_medium',
         duration: '20 mins',
         calorie: '250 kcal',
         viewIsSelected: false,
@@ -44,9 +44,9 @@ class DietModel {
     );
     dietList.add(
       DietModel(
-        name: 'ក្រូសង់', // "Croissant" in Khmer
+        name: 'diet_croissant',
         iconPath: 'assets/images/croissant.png',
-        lavel: 'ពិបាក', // "Hard" in Khmer
+        lavel: 'level_hard',
         duration: '15 mins',
         calorie: '100 kcal',
         viewIsSelected: false,

@@ -9,8 +9,9 @@ class AppTranslations {
       'popular': 'ពេញនិយម',
       'created_by': 'បង្កើតដោយ៖ គន់​ ថៃណា',
       'for_lessons': 'សម្រាប់មេរៀន Flutter ជាមួយ App Maker Club',
+      'profile_name': 'គន់ ថៃណា',
       'select': 'ជ្រើសរើស',
-      
+
       // Drawer
       'favorites': 'ចំណូលចិត្ត',
       'recipes': 'មុខម្ហូប',
@@ -19,7 +20,7 @@ class AppTranslations {
       'settings': 'ការកំណត់',
       'help': 'ជំនួយ',
       'logout': 'ចាក់ចេញ',
-      
+
       // Settings Page
       'appearance': 'រូបរាង',
       'dark_mode': 'ម៉ូដងងឹត',
@@ -36,24 +37,48 @@ class AppTranslations {
       'terms_subtitle': 'អានលក្ខខណ្ឌ',
       'account': 'គណនី',
       'logout_subtitle': 'ចាកចេញពីគណនី',
-      
+
       // Dialogs
       'choose_language': 'ជ្រើសរើសភាសា',
       'language_changed': 'ភាសាត្រូវបានប្តូរ',
       'privacy_unavailable': 'គោលការណ៍ភាពឯកជន មិនទាន់មាន',
       'terms_unavailable': 'លក្ខខណ្ឌនៃការប្រើប្រាស់ មិនទាន់មាន',
-      'about_description': 'កម្មវិធីអាហារដ៏ល្អបំផុតសម្រាប់អ្នក។ ស្វែងរករូបមន្តអាហារថ្មីៗ និងរក្សាសុខភាព។',
+      'about_description':
+          'កម្មវិធីអាហារដ៏ល្អបំផុតសម្រាប់អ្នក។ ស្វែងរករូបមន្តអាហារថ្មីៗ និងរក្សាសុខភាព។',
       'created_by_name': 'បង្កើតដោយ: គន់ ថៃណា',
       'version': 'កំណែ',
       'close': 'បិទ',
       'confirm_logout': 'តើអ្នកពិតជាចង់ចាកចេញពីគណនីមែនទេ?',
       'cancel': 'បោះបង់',
       'logged_out': 'អ្នកបានចាកចេញពីគណនីរួចហើយ',
-      
+
       // FAB
       'add_category': 'បន្ថែមប្រភេទ',
       'add_diet': 'បន្ថែមណែនាំ',
       'add_popular': 'បន្ថែមពេញនិយម',
+
+      // Data Content
+      'cat_breakfast': 'អាហារពេលព្រឹក',
+      'cat_noodle': 'គុយទាវ',
+      'cat_hotdog': 'ហត់ដុក',
+      'cat_fries': 'ដំឡូងបារាំងបំពង',
+
+      'diet_chicken': 'សាច់មាន់ចៀន',
+      'diet_fish': 'ត្រីសាច់ដុត',
+      'diet_croissant': 'ក្រូសង់',
+
+      'level_easy': 'ងាយ',
+      'level_medium': 'មធ្យម',
+      'level_hard': 'ពិបាក',
+
+      '10 mins': '10 នាទី',
+      '20 mins': '20 នាទី',
+      '15 mins': '15 នាទី',
+      '5 mins': '5 នាទី',
+      '150 kcal': '150 kcal',
+      '250 kcal': '250 kcal',
+      '100 kcal': '100 kcal',
+      '80 kcal': '80 kcal',
     },
     'English': {
       // Home Page
@@ -64,8 +89,9 @@ class AppTranslations {
       'popular': 'Popular',
       'created_by': 'Created by: Kun Thaina',
       'for_lessons': 'For Flutter lessons with App Maker Club',
+      'profile_name': 'Kun Thaina',
       'select': 'Select',
-      
+
       // Drawer
       'favorites': 'Favorites',
       'recipes': 'Recipes',
@@ -74,7 +100,7 @@ class AppTranslations {
       'settings': 'Settings',
       'help': 'Help',
       'logout': 'Logout',
-      
+
       // Settings Page
       'appearance': 'Appearance',
       'dark_mode': 'Dark Mode',
@@ -91,24 +117,48 @@ class AppTranslations {
       'terms_subtitle': 'Read terms',
       'account': 'Account',
       'logout_subtitle': 'Sign out of account',
-      
+
       // Dialogs
       'choose_language': 'Choose Language',
       'language_changed': 'Language changed',
       'privacy_unavailable': 'Privacy Policy unavailable',
       'terms_unavailable': 'Terms of Service unavailable',
-      'about_description': 'The best food app for you. Find new recipes and stay healthy.',
+      'about_description':
+          'The best food app for you. Find new recipes and stay healthy.',
       'created_by_name': 'Created by: Kun Thaina',
       'version': 'Version',
       'close': 'Close',
       'confirm_logout': 'Are you sure you want to logout?',
       'cancel': 'Cancel',
       'logged_out': 'You have been logged out',
-      
+
       // FAB
       'add_category': 'Add Category',
       'add_diet': 'Add Diet',
       'add_popular': 'Add Popular',
+
+      // Data Content
+      'cat_breakfast': 'Breakfast',
+      'cat_noodle': 'Noodle Soup',
+      'cat_hotdog': 'Hot Dog',
+      'cat_fries': 'French Fries',
+
+      'diet_chicken': 'Grilled Chicken',
+      'diet_fish': 'Grilled Fish',
+      'diet_croissant': 'Croissant',
+
+      'level_easy': 'Easy',
+      'level_medium': 'Medium',
+      'level_hard': 'Hard',
+
+      '10 mins': '10 mins',
+      '20 mins': '20 mins',
+      '15 mins': '15 mins',
+      '5 mins': '5 mins',
+      '150 kcal': '150 kcal',
+      '250 kcal': '250 kcal',
+      '100 kcal': '100 kcal',
+      '80 kcal': '80 kcal',
     },
   };
 }
