@@ -3,6 +3,7 @@ class PopularModel {
   String iconPath;
   String duration;
   String calorie;
+  String price;
   bool boxIsSelected;
 
   PopularModel({
@@ -10,6 +11,7 @@ class PopularModel {
     required this.iconPath,
     required this.duration,
     required this.calorie,
+    required this.price,
     this.boxIsSelected = false,
   });
 
@@ -21,6 +23,7 @@ class PopularModel {
         iconPath: 'assets/images/roast-chicken.png',
         duration: '10 mins',
         calorie: '150 kcal',
+        price: '12.00',
         boxIsSelected: false,
       ),
     );
@@ -30,6 +33,7 @@ class PopularModel {
         iconPath: 'assets/images/fish.png',
         duration: '20 mins',
         calorie: '250 kcal',
+        price: '15.50',
         boxIsSelected: true,
       ),
     );
@@ -39,6 +43,7 @@ class PopularModel {
         iconPath: 'assets/images/croissant.png',
         duration: '15 mins',
         calorie: '100 kcal',
+        price: '2.50',
         boxIsSelected: false,
       ),
     );
@@ -48,6 +53,7 @@ class PopularModel {
         iconPath: 'assets/images/noodles.png',
         duration: '5 mins',
         calorie: '80 kcal',
+        price: '5.00',
         boxIsSelected: false,
       ),
     );

@@ -7,6 +7,7 @@ class DietModel {
   final String lavel;
   final String duration;
   final String calorie;
+  final String price;
   final bool viewIsSelected;
 
   DietModel({
@@ -15,6 +16,7 @@ class DietModel {
     required this.lavel,
     required this.duration,
     required this.calorie,
+    required this.price,
     required this.viewIsSelected,
   });
 
@@ -29,6 +31,7 @@ class DietModel {
         lavel: 'level_easy',
         duration: '10 mins',
         calorie: '150 kcal',
+        price: '12.00',
         viewIsSelected: true,
       ),
     );
@@ -39,6 +42,7 @@ class DietModel {
         lavel: 'level_medium',
         duration: '20 mins',
         calorie: '250 kcal',
+        price: '15.50',
         viewIsSelected: false,
       ),
     );
@@ -49,6 +53,7 @@ class DietModel {
         lavel: 'level_hard',
         duration: '15 mins',
         calorie: '100 kcal',
+        price: '2.50',
         viewIsSelected: false,
       ),
     );

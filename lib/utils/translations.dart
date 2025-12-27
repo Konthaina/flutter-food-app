@@ -23,6 +23,8 @@ class AppTranslations {
       'settings': 'ការកំណត់',
       'help': 'ជំនួយ',
       'logout': 'ចាក់ចេញ',
+      'cart': 'កន្ត្រក',
+      'cart_empty': 'កន្ត្រកទំនេរ',
 
       // Settings Page
       'appearance': 'រូបរាង',
@@ -91,7 +93,7 @@ class AppTranslations {
       'home_title': 'Home Page',
       'search_hint': 'Search...',
       'categories': 'Categories',
-      'diets': 'Diets',
+      'diets': 'Recommendation',
       'popular': 'Popular',
       'created_by': 'Created by: Kun Thaina',
       'for_lessons': 'For Flutter lessons with App Maker Club',
@@ -109,6 +111,8 @@ class AppTranslations {
       'settings': 'Settings',
       'help': 'Help',
       'logout': 'Logout',
+      'cart': 'Cart',
+      'cart_empty': 'Cart is empty',
 
       // Settings Page
       'appearance': 'Appearance',

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'home.dart';
 import 'settings.dart';
 import 'favorites.dart';
+import 'cart.dart';
 import '../providers/settings_provider.dart';
 
 class MainScreen extends StatefulWidget {
@@ -39,6 +40,7 @@ class _MainScreenState extends State<MainScreen> {
     final List<Widget> pages = [
       HomePage(settingsProvider: widget.settingsProvider),
       FavoritesPage(settingsProvider: widget.settingsProvider),
+      CartPage(settingsProvider: widget.settingsProvider),
       SettingsPage(settingsProvider: widget.settingsProvider),
     ];
 
@@ -76,6 +78,11 @@ class _MainScreenState extends State<MainScreen> {
                   icon: const Icon(Icons.favorite_rounded),
                   activeIcon: const Icon(Icons.favorite_rounded, size: 28),
                   label: widget.settingsProvider.translate('favorites'),
+                ),
+                BottomNavigationBarItem(
+                  icon: const Icon(Icons.shopping_cart_rounded),
+                  activeIcon: const Icon(Icons.shopping_cart_rounded, size: 28),
+                  label: widget.settingsProvider.translate('cart'),
                 ),
                 BottomNavigationBarItem(
                   icon: const Icon(Icons.settings_rounded),

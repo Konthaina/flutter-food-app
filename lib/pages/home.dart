@@ -310,6 +310,15 @@ class _HomePageState extends State<HomePage> {
                         color: isDarkMode ? Colors.grey[500] : Colors.grey[600],
                       ),
                     ),
+                    const SizedBox(height: 4),
+                    Text(
+                      '\$${dietList[index].price}',
+                      style: const TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.teal,
+                      ),
+                    ),
                     Container(
                       height: 44,
                       width: 130,
@@ -414,7 +423,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            '${widget.settingsProvider.translate(popularList[index].duration)} | ${widget.settingsProvider.translate(popularList[index].calorie)}',
+                            '${widget.settingsProvider.translate(popularList[index].duration)} | ${widget.settingsProvider.translate(popularList[index].calorie)} | \$${popularList[index].price}',
                             style: TextStyle(
                               fontSize: 13,
                               color: isDarkMode

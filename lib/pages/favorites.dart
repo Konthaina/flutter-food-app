@@ -130,7 +130,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    '${widget.settingsProvider.translate(item.duration)} | ${widget.settingsProvider.translate(item.calorie)}',
+                    '${widget.settingsProvider.translate(item.duration)} | ${widget.settingsProvider.translate(item.calorie)} | \$${item.price}',
                     style: TextStyle(
                       fontSize: 13,
                       color: isDarkMode ? Colors.grey[500] : Colors.grey[600],
