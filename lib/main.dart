@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:first_app/pages/main_screen.dart';
 import 'package:first_app/providers/settings_provider.dart';
-import '../pages/home.dart';
+import 'package:flutter/material.dart';
 
 void main() {
   runApp(const MyApp());
@@ -30,7 +30,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: settingsProvider.themeData,
-      home: HomePage(settingsProvider: settingsProvider),
+      home: MainScreen(settingsProvider: settingsProvider),
     );
   }
 }

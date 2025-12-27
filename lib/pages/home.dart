@@ -24,27 +24,11 @@ class _HomePageState extends State<HomePage> {
 
   bool get isDarkMode => widget.settingsProvider.isDarkMode;
 
-  void _getCatagoryList() {
-    catagoryList = CatagoryModel.getCatagoryList();
-  }
-
-  void _getDietList() {
-    dietList = DietModel.getDietList();
-  }
-
-  void _getPopularList() {
-    popularList = PopularModel.getPopularList();
-  }
-
-  void _getDefaultProfile() {
-    profile = ProfileModel.getDefaultProfile();
-  }
-
   void _getInitailInfo() {
-    _getCatagoryList();
-    _getDietList();
-    _getPopularList();
-    _getDefaultProfile();
+    catagoryList = CatagoryModel.getCatagoryList();
+    dietList = DietModel.getDietList();
+    popularList = PopularModel.getPopularList();
+    profile = ProfileModel.getDefaultProfile();
   }
 
   @override
@@ -59,52 +43,292 @@ class _HomePageState extends State<HomePage> {
       appBar: appBar(),
       drawer: _buildDrawer(),
       body: ListView(
+        physics: const BouncingScrollPhysics(),
         children: [
+          _welcomeSection(),
           _searchField(),
+          const SizedBox(height: 24),
           _catagorySection(),
-          const SizedBox(height: 16),
+          const SizedBox(height: 32),
           _deitSection(),
-          const SizedBox(height: 16),
+          const SizedBox(height: 32),
           _popularSection(),
-          _createBySection(),
+          const SizedBox(height: 24),
         ],
       ),
-
       floatingActionButton: FloatingActionButton(
-        onPressed: _onFabPressed,
+        onPressed: () {},
         backgroundColor: Colors.teal,
-        child: const Icon(Icons.add, color: Colors.white),
+        elevation: 4,
+        child: const Icon(Icons.add_rounded, color: Colors.white, size: 28),
       ),
     );
   }
 
-  Column _createBySection() {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 24.0),
-          child: SizedBox(
-            width: double.infinity,
-            child: Column(
+  Widget _welcomeSection() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 20, right: 20, top: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '${widget.settingsProvider.translate('welcome_greeting')}, ${widget.settingsProvider.translate(profile[0].name!)} 👋',
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              color: isDarkMode ? Colors.white : Colors.black,
+              letterSpacing: -0.5,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            widget.settingsProvider.translate('welcome_subtitle'),
+            style: TextStyle(
+              fontSize: 16,
+              color: isDarkMode ? Colors.grey[400] : Colors.grey[600],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _searchField() {
+    return Container(
+      margin: const EdgeInsets.only(left: 20, right: 20, top: 20),
+      decoration: BoxDecoration(
+        color: isDarkMode ? const Color(0xFF1E1E1E) : Colors.white,
+        borderRadius: BorderRadius.circular(50),
+        border: Border.all(
+          color: isDarkMode ? Colors.grey[800]! : Colors.grey[200]!,
+          width: 1,
+        ),
+      ),
+      child: TextField(
+        style: TextStyle(color: isDarkMode ? Colors.white : Colors.black),
+        decoration: InputDecoration(
+          hintText: widget.settingsProvider.translate('search_hint'),
+          hintStyle: TextStyle(
+            color: isDarkMode ? Colors.grey[600] : Colors.grey[400],
+            fontSize: 15,
+          ),
+          filled: true,
+          fillColor: isDarkMode ? const Color(0xFF1E1E1E) : Colors.white,
+          contentPadding: const EdgeInsets.symmetric(horizontal: 25, vertical: 12),
+          prefixIcon: Padding(
+            padding: const EdgeInsets.only(left: 20, right: 12),
+            child: SvgPicture.asset(
+              'assets/icons/search.svg',
+              colorFilter: ColorFilter.mode(
+                isDarkMode ? Colors.grey[500]! : Colors.grey[400]!,
+                BlendMode.srcIn,
+              ),
+              width: 18,
+            ),
+          ),
+          suffixIcon: SizedBox(
+            width: 70,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Text(
-                  widget.settingsProvider.translate('created_by'),
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: isDarkMode ? Colors.grey[500] : Colors.grey[600],
-                  ),
-                  textAlign: TextAlign.center,
+                Container(
+                  height: 20,
+                  width: 1,
+                  color: isDarkMode ? Colors.grey[800] : Colors.grey[200],
                 ),
-                Text(
-                  widget.settingsProvider.translate('for_lessons'),
-                  style: TextStyle(
-                    fontSize: 10,
-                    color: isDarkMode ? Colors.grey[600] : Colors.grey[400],
+                Padding(
+                  padding: const EdgeInsets.only(left: 12, right: 20),
+                  child: SvgPicture.asset(
+                    'assets/icons/sort-numeric-down.svg',
+                    colorFilter: ColorFilter.mode(
+                      isDarkMode ? Colors.teal[400]! : Colors.teal,
+                      BlendMode.srcIn,
+                    ),
+                    width: 18,
                   ),
-                  textAlign: TextAlign.center,
                 ),
               ],
             ),
+          ),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(50),
+            borderSide: BorderSide.none,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Column _catagorySection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                widget.settingsProvider.translate('categories'),
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: isDarkMode ? Colors.white : Colors.black,
+                ),
+              ),
+              Text(
+                'មើលទាំងអស់',
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.teal,
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 16),
+        SizedBox(
+          height: 110,
+          child: ListView.separated(
+            itemCount: catagoryList.length,
+            scrollDirection: Axis.horizontal,
+            separatorBuilder: (context, index) => const SizedBox(width: 24),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            itemBuilder: (context, index) {
+              return Column(
+                children: [
+                  SizedBox(
+                    height: 70,
+                    width: 70,
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Image.asset(
+                          catagoryList[index].iconPath!,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    widget.settingsProvider.translate(
+                      catagoryList[index].catagoryName!,
+                    ),
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color: isDarkMode ? Colors.grey[300] : Colors.grey[700],
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  Column _deitSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                widget.settingsProvider.translate('diets'),
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: isDarkMode ? Colors.white : Colors.black,
+                ),
+              ),
+              Text(
+                'មើលទាំងអស់',
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.teal,
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 16),
+        SizedBox(
+          height: 250,
+          child: ListView.separated(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (context, index) {
+              final isSelected = dietList[index].viewIsSelected;
+              return Container(
+                width: 210,
+                decoration: BoxDecoration(
+                  color: Colors.transparent,
+                  borderRadius: BorderRadius.circular(24),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Image.asset(
+                      dietList[index].iconPath,
+                      height: 90,
+                      width: 90,
+                      fit: BoxFit.contain,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                      child: Text(
+                        widget.settingsProvider.translate(dietList[index].name),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.bold,
+                          color: isDarkMode ? Colors.white : Colors.black,
+                        ),
+                      ),
+                    ),
+                    Text(
+                      '${widget.settingsProvider.translate(dietList[index].lavel)} | ${widget.settingsProvider.translate(dietList[index].duration)} | ${widget.settingsProvider.translate(dietList[index].calorie)}',
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: isDarkMode ? Colors.grey[500] : Colors.grey[600],
+                      ),
+                    ),
+                    Container(
+                      height: 44,
+                      width: 130,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: isSelected
+                              ? [Colors.teal, Colors.teal[700]!]
+                              : [Colors.grey[200]!, Colors.grey[200]!],
+                        ),
+                        borderRadius: BorderRadius.circular(22),
+                      ),
+                      child: Center(
+                        child: Text(
+                          widget.settingsProvider.translate('select'),
+                          style: TextStyle(
+                            color: isSelected ? Colors.white : Colors.grey[600],
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+            separatorBuilder: (context, index) => const SizedBox(width: 16),
+            itemCount: dietList.length,
           ),
         ),
       ],
@@ -116,94 +340,89 @@ class _HomePageState extends State<HomePage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
-          child: Text(
-            widget.settingsProvider.translate('popular'),
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w100,
-              color: isDarkMode ? Colors.white : Colors.grey[800],
-            ),
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                widget.settingsProvider.translate('popular'),
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: isDarkMode ? Colors.white : Colors.black,
+                ),
+              ),
+              Text(
+                'មើលទាំងអស់',
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.teal,
+                ),
+              ),
+            ],
           ),
         ),
-        SizedBox(height: 12),
+        const SizedBox(height: 16),
         ListView.separated(
           physics: const NeverScrollableScrollPhysics(),
-          separatorBuilder: (context, index) => SizedBox(height: 12),
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          separatorBuilder: (context, index) => const SizedBox(height: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 20),
           shrinkWrap: true,
           itemCount: popularList.length,
           itemBuilder: (context, index) {
             return Container(
-              height: 115,
+              height: 100,
               decoration: BoxDecoration(
-                color: popularList[index].boxIsSelected
-                    ? (isDarkMode
-                        ? Colors.teal.withValues(alpha: 0.3)
-                        : const Color(0xFFB2DFDB))
-                    : Colors.transparent,
-                borderRadius: BorderRadius.circular(16),
-                boxShadow: popularList[index].boxIsSelected
-                    ? [
-                        BoxShadow(
-                          color: isDarkMode
-                              ? Colors.transparent
-                              : Colors.teal.withValues(alpha: 0.2),
-                          offset: Offset(0, 4),
-                          spreadRadius: 0,
-                          blurRadius: 40,
-                        ),
-                      ]
-                    : [],
+                color: Colors.transparent,
+                borderRadius: BorderRadius.circular(20),
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Image.asset(
-                    popularList[index].iconPath,
-                    height: 60,
-                    width: 60,
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        widget.settingsProvider.translate(
-                          popularList[index].name,
-                        ),
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w800,
-                          color: isDarkMode ? Colors.white : Colors.grey[800],
-                        ),
-                      ),
-                      Text(
-                        '${widget.settingsProvider.translate(popularList[index].duration)} | ${widget.settingsProvider.translate(popularList[index].calorie)}',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          color: isDarkMode
-                              ? Colors.grey[400]
-                              : Colors.grey[600],
-                        ),
-                      ),
-                    ],
-                  ),
-                  GestureDetector(
-                    onTap: () {},
-                    child: SvgPicture.asset(
-                      'assets/icons/box-arrow-in-up-right.svg',
-                      width: 20,
-                      height: 20,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Row(
+                  children: [
+                    Image.asset(
+                      popularList[index].iconPath,
+                      height: 60,
+                      width: 60,
                       fit: BoxFit.contain,
-                      colorFilter: const ColorFilter.mode(
-                        Colors.grey,
-                        BlendMode.srcIn,
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            widget.settingsProvider.translate(
+                              popularList[index].name,
+                            ),
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: isDarkMode ? Colors.white : Colors.black,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            '${widget.settingsProvider.translate(popularList[index].duration)} | ${widget.settingsProvider.translate(popularList[index].calorie)}',
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: isDarkMode
+                                  ? Colors.grey[500]
+                                  : Colors.grey[600],
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ),
-                ],
+                    const Icon(
+                      Icons.chevron_right_rounded,
+                      color: Colors.teal,
+                      size: 24,
+                    ),
+                  ],
+                ),
               ),
             );
           },
@@ -212,219 +431,71 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Column _deitSection() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
-          child: Text(
-            widget.settingsProvider.translate('diets'),
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w100,
-              color: isDarkMode ? Colors.white : Colors.black,
-            ),
-          ),
-        ),
-        SizedBox(
-          height: 240,
-          child: ListView.separated(
-            itemBuilder: (context, index) {
-              return Container(
-                width: 210,
-                decoration: BoxDecoration(
-                  color: isDarkMode
-                      ? (dietList[index].viewIsSelected
-                          ? Colors.teal.withValues(alpha: 0.3)
-                          : Colors.grey.withValues(alpha: 0.1))
-                      : dietList[index].boxColor,
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Image.asset(
-                      dietList[index].iconPath,
-                      height: 80,
-                      width: 80,
-                    ),
-                    Text(
-                      widget.settingsProvider.translate(dietList[index].name),
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w800,
-                        color: isDarkMode ? Colors.grey[200] : Colors.grey[800],
-                      ),
-                    ),
-                    Text(
-                      '${widget.settingsProvider.translate(dietList[index].lavel)} | ${widget.settingsProvider.translate(dietList[index].duration)} | ${widget.settingsProvider.translate(dietList[index].calorie)}',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: isDarkMode ? Colors.grey[400] : Colors.grey[600],
-                      ),
-                    ),
-                    Container(
-                      height: 40,
-                      width: 140,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            dietList[index].viewIsSelected
-                                ? Colors.teal
-                                : Colors.teal[100]!,
-                            dietList[index].viewIsSelected
-                                ? Colors.teal.shade700
-                                : Colors.grey.withValues(
-                                    alpha: isDarkMode ? 0.6 : 1.0,
-                                  ),
-                          ],
-                        ),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Center(
-                        child: Text(
-                          widget.settingsProvider.translate('select'),
-                          style: TextStyle(
-                            color: dietList[index].viewIsSelected
-                                ? Colors.white
-                                : (isDarkMode
-                                      ? Colors.grey[300]
-                                      : Colors.grey[800]),
-                            fontWeight: FontWeight.w600,
-                            fontSize: 16,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            },
-            separatorBuilder: (context, index) => SizedBox(width: 12),
-            itemCount: dietList.length,
-            scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Column _catagorySection() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 0),
-          child: Text(
-            widget.settingsProvider.translate('categories'),
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w100,
-              color: isDarkMode ? Colors.white : Colors.black,
-            ),
-          ),
-        ),
-        SizedBox(height: 12),
-        SizedBox(
-          height: 150,
-          child: ListView.separated(
-            itemCount: catagoryList.length,
-            scrollDirection: Axis.horizontal,
-            separatorBuilder: (context, index) => SizedBox(width: 12),
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            itemBuilder: (context, index) {
-              return Container(
-                width: 120,
-                decoration: BoxDecoration(
-                  color: isDarkMode
-                      ? catagoryList[index].boxColor!.withValues(alpha: 0.3)
-                      : catagoryList[index].boxColor,
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Container(
-                      height: 80,
-                      width: 80,
-                      decoration: BoxDecoration(
-                        color: isDarkMode
-                            ? Colors.white.withValues(alpha: 0.9)
-                            : Colors.white,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Image.asset(catagoryList[index].iconPath!),
-                      ),
-                    ),
-                    Text(
-                      widget.settingsProvider.translate(
-                        catagoryList[index].catagoryName!,
-                      ),
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w800,
-                        color: isDarkMode ? Colors.grey[200] : Colors.grey[800],
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            },
-          ),
-        ),
-      ],
-    );
-  }
 
   AppBar appBar() {
     return AppBar(
-      backgroundColor: Colors.teal,
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      scrolledUnderElevation: 0,
       title: Text(
         widget.settingsProvider.translate('home_title'),
         style: TextStyle(
-          color: Colors.white,
-          fontWeight: FontWeight.bold,
-          fontSize: 24,
+          color: isDarkMode ? Colors.white : Colors.black,
+          fontWeight: FontWeight.w900,
+          fontSize: 20,
         ),
       ),
       leading: Builder(
-        builder: (context) => GestureDetector(
-          onTap: () => Scaffold.of(context).openDrawer(),
-          child: Container(
-            alignment: Alignment.center,
-            margin: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: Color(0xFF00897B),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Icon(Icons.menu_rounded, color: Colors.white, size: 24),
+        builder: (context) => IconButton(
+          onPressed: () => Scaffold.of(context).openDrawer(),
+          icon: Icon(
+            Icons.menu_rounded,
+            color: isDarkMode ? Colors.white : Colors.black,
+            size: 24,
           ),
         ),
       ),
       actions: [
-        GestureDetector(
-          onTap: _onTap,
-          child: Container(
-            alignment: Alignment.center,
-            width: 37,
-            margin: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: Color(0xFF00897B),
-              borderRadius: BorderRadius.circular(10),
+        if (widget.settingsProvider.notificationsEnabled)
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: Stack(
+              children: [
+                IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.notifications_none_rounded,
+                    color: isDarkMode ? Colors.white : Colors.black,
+                    size: 22,
+                  ),
+                ),
+                Positioned(
+                  right: 12,
+                  top: 12,
+                  child: Container(
+                    width: 6,
+                    height: 6,
+                    decoration: const BoxDecoration(
+                      color: Colors.red,
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                ),
+              ],
             ),
-            child: SvgPicture.asset(
-              'assets/icons/three-dots.svg',
-              colorFilter: const ColorFilter.mode(
-                Colors.white,
-                BlendMode.srcIn,
-              ),
-              width: 20,
-              height: 20,
+          ),
+        Padding(
+          padding: const EdgeInsets.only(right: 16.0),
+          child: IconButton(
+            onPressed: () => widget.settingsProvider.setLanguage(
+              widget.settingsProvider.language == 'English'
+                  ? 'ភាសាខ្មែរ'
+                  : 'English',
+            ),
+            icon: Icon(
+              Icons.translate_rounded,
+              color: isDarkMode ? Colors.white : Colors.black,
+              size: 22,
             ),
           ),
         ),
@@ -435,145 +506,113 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildDrawer() {
     return Drawer(
-      backgroundColor: isDarkMode ? Color(0xFF1E1E1E) : Colors.white,
+      width: MediaQuery.of(context).size.width * 0.7,
+      backgroundColor: isDarkMode ? const Color(0xFF1E1E1E) : Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.zero,
+      ),
       child: Column(
         children: [
-          // Profile Header Section
+          // Premium Header with Gradient
           Container(
             width: double.infinity,
-            padding: const EdgeInsets.only(
-              top: 50,
-              bottom: 24,
-              left: 20,
-              right: 20,
+            padding: const EdgeInsets.only(top: 50, bottom: 20, left: 24, right: 24),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Colors.teal, Colors.teal[700]!],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
             ),
-            decoration: BoxDecoration(color: Colors.teal),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Avatar
                 Container(
-                  width: 80,
-                  height: 80,
+                  width: 60,
+                  height: 60,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Colors.white,
-                    border: Border.all(color: Colors.white, width: 3),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withValues(
-                          alpha: isDarkMode ? 0.5 : 0.2,
-                        ),
-                        blurRadius: 10,
-                        offset: const Offset(0, 4),
-                      ),
-                    ],
+                    border: Border.all(color: Colors.white.withValues(alpha: 0.5), width: 2),
                   ),
                   child: ClipOval(
-                    child: SvgPicture.asset(
-                      profile[0].avatarPath!,
-                      width: 80,
-                      height: 80,
-                      fit: BoxFit.cover,
-                    ),
+                    child: SvgPicture.asset(profile[0].avatarPath!, fit: BoxFit.cover),
                   ),
                 ),
-                const SizedBox(height: 16),
-                // Name
+                const SizedBox(height: 12),
                 Text(
                   widget.settingsProvider.translate(profile[0].name!),
                   style: const TextStyle(
                     color: Colors.white,
-                    fontSize: 20,
+                    fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(height: 4),
-                // Email
                 Text(
                   profile[0].email!,
                   style: TextStyle(
-                    color: Colors.white.withValues(alpha: 0.9),
-                    fontSize: 14,
+                    color: Colors.white.withValues(alpha: 0.8),
+                    fontSize: 13,
                   ),
                 ),
               ],
             ),
           ),
-          // Menu Items
+          // Scrollable Menu Items
           Expanded(
             child: ListView(
-              padding: const EdgeInsets.symmetric(vertical: 8),
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
               children: [
-                _buildDrawerItem(
-                  icon: Icons.home_rounded,
-                  title: widget.settingsProvider.translate('home_title'),
-                  isSelected: true,
-                  onTap: () => Navigator.pop(context),
+                _buildDrawerItem(Icons.home_rounded, 'home_title', true, Colors.blue),
+                _buildDrawerItem(Icons.favorite_rounded, 'favorites', false, Colors.redAccent),
+                _buildDrawerItem(Icons.restaurant_menu_rounded, 'recipes', false, Colors.orange),
+                _buildDrawerItem(Icons.history_rounded, 'history', false, Colors.purple),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  child: Divider(
+                    color: isDarkMode ? Colors.grey[800] : Colors.grey[200],
+                    height: 1,
+                  ),
                 ),
-                _buildDrawerItem(
-                  icon: Icons.favorite_rounded,
-                  title: widget.settingsProvider.translate('favorites'),
-                  onTap: () => Navigator.pop(context),
-                ),
-                _buildDrawerItem(
-                  icon: Icons.restaurant_menu_rounded,
-                  title: widget.settingsProvider.translate('recipes'),
-                  onTap: () => Navigator.pop(context),
-                ),
-                _buildDrawerItem(
-                  icon: Icons.history_rounded,
-                  title: widget.settingsProvider.translate('history'),
-                  onTap: () => Navigator.pop(context),
-                ),
-                const Divider(height: 32, indent: 16, endIndent: 16),
-                _buildDrawerItem(
-                  icon: Icons.person_rounded,
-                  title: widget.settingsProvider.translate('profile'),
-                  onTap: () => Navigator.pop(context),
-                ),
-                _buildDrawerItem(
-                  icon: Icons.settings_rounded,
-                  title: widget.settingsProvider.translate('settings'),
-                  onTap: () {
-                    Navigator.pop(context);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SettingsPage(
-                          settingsProvider: widget.settingsProvider,
-                        ),
-                      ),
-                    );
-                  },
-                ),
-                _buildDrawerItem(
-                  icon: Icons.help_outline_rounded,
-                  title: widget.settingsProvider.translate('help'),
-                  onTap: () => Navigator.pop(context),
-                ),
+                _buildDrawerItem(Icons.settings_rounded, 'settings', false, Colors.teal, () {
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => SettingsPage(settingsProvider: widget.settingsProvider),
+                    ),
+                  );
+                }),
+                _buildDrawerItem(Icons.help_outline_rounded, 'help', false, Colors.grey),
               ],
             ),
           ),
-          // Logout Button
-          Container(
+          // Styled Logout Button at Footer
+          Padding(
             padding: const EdgeInsets.all(16),
-            child: ListTile(
-              leading: Icon(Icons.logout_rounded, color: Colors.red[400]),
-              title: Text(
-                widget.settingsProvider.translate('logout'),
-                style: TextStyle(
-                  color: Colors.red[400],
-                  fontWeight: FontWeight.w600,
+            child: InkWell(
+              onTap: () => Navigator.pop(context),
+              borderRadius: BorderRadius.circular(12),
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                decoration: BoxDecoration(
+                  color: Colors.red.withValues(alpha: 0.08),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Row(
+                  children: [
+                    const Icon(Icons.logout_rounded, color: Colors.red, size: 20),
+                    const SizedBox(width: 12),
+                    Text(
+                      widget.settingsProvider.translate('logout'),
+                      style: const TextStyle(
+                        color: Colors.red,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              onTap: () {
-                Navigator.pop(context);
-                // Add logout logic here
-              },
             ),
           ),
         ],
@@ -581,240 +620,33 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildDrawerItem({
-    required IconData icon,
-    required String title,
-    bool isSelected = false,
-    required VoidCallback onTap,
-  }) {
+  Widget _buildDrawerItem(IconData icon, String key, bool isSelected, Color iconColor, [VoidCallback? onTap]) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
+      margin: const EdgeInsets.only(bottom: 4),
       decoration: BoxDecoration(
-        color: isSelected
-            ? Colors.teal.withValues(alpha: 0.1)
-            : Colors.transparent,
+        color: isSelected ? iconColor.withValues(alpha: 0.1) : Colors.transparent,
         borderRadius: BorderRadius.circular(12),
       ),
       child: ListTile(
-        leading: Icon(
-          icon,
-          color: isSelected
-              ? Colors.teal
-              : (isDarkMode ? Colors.grey[400] : Colors.grey[700]),
+        onTap: onTap ?? () => Navigator.pop(context),
+        leading: Container(
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: isSelected ? iconColor.withValues(alpha: 0.2) : iconColor.withValues(alpha: 0.1),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Icon(icon, color: iconColor, size: 22),
         ),
         title: Text(
-          title,
+          widget.settingsProvider.translate(key),
           style: TextStyle(
-            color: isSelected
-                ? Colors.teal
-                : (isDarkMode ? Colors.grey[200] : Colors.grey[800]),
-            fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+            color: isSelected ? (isDarkMode ? Colors.white : Colors.black) : (isDarkMode ? Colors.grey[300] : Colors.grey[800]),
+            fontWeight: isSelected ? FontWeight.bold : FontWeight.w600,
+            fontSize: 15,
           ),
         ),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        onTap: onTap,
       ),
     );
-  }
-
-  void _onTap() {
-    showModalBottomSheet(
-      backgroundColor: isDarkMode ? Color(0xFF1E1E1E) : Colors.white,
-      context: context,
-      elevation: 10,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-      ),
-      builder: (_) => SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SizedBox(height: 10),
-            Container(
-              width: 52, // size (width)
-              height: 5, // size (height)
-              decoration: BoxDecoration(
-                color: isDarkMode
-                    ? Colors.grey[700]
-                    : Colors.grey[300], // ✅ color
-                borderRadius: BorderRadius.circular(99),
-              ),
-            ),
-            ListTile(
-              iconColor: Colors.teal,
-              leading: const Icon(Icons.person),
-              title: Text(
-                widget.settingsProvider.translate('profile'),
-                style: const TextStyle(
-                  color: Colors.teal,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              onTap: () => Navigator.pop(context),
-            ),
-            ListTile(
-              iconColor: Colors.teal,
-              leading: const Icon(Icons.settings),
-              title: Text(
-                widget.settingsProvider.translate('settings'),
-                style: const TextStyle(
-                  color: Colors.teal,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              onTap: () => Navigator.pop(context),
-            ),
-            ListTile(
-              iconColor: Colors.red[300],
-              leading: const Icon(Icons.logout),
-              title: Text(
-                widget.settingsProvider.translate('logout'),
-                style: TextStyle(
-                  color: Colors.red[300]!,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              onTap: () => Navigator.pop(context),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _searchField() {
-    return Container(
-      margin: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        boxShadow: isDarkMode
-            ? []
-            : [
-                BoxShadow(
-                  color: Colors.grey.withValues(alpha: 0.2),
-                  spreadRadius: 0,
-                  blurRadius: 40,
-                ),
-              ],
-      ),
-      child: TextField(
-        style: TextStyle(color: isDarkMode ? Colors.white : Colors.black),
-        decoration: InputDecoration(
-          hintText: widget.settingsProvider.translate('search_hint'),
-          hintStyle: TextStyle(
-            color: isDarkMode ? Colors.grey[600] : Colors.grey[500],
-          ),
-          filled: true,
-          fillColor: isDarkMode ? Color(0xFF1E1E1E) : Colors.grey[50],
-          prefixIcon: Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: SvgPicture.asset(
-              'assets/icons/search.svg',
-              width: 20,
-              height: 20,
-              fit: BoxFit.contain,
-              colorFilter: ColorFilter.mode(
-                isDarkMode ? Colors.grey[400]! : Colors.grey,
-                BlendMode.srcIn,
-              ),
-            ),
-          ),
-          suffixIcon: Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: SvgPicture.asset(
-              'assets/icons/sort-numeric-down.svg',
-              width: 20,
-              height: 20,
-              fit: BoxFit.contain,
-              colorFilter: ColorFilter.mode(
-                isDarkMode ? Colors.grey[400]! : Colors.grey,
-                BlendMode.srcIn,
-              ),
-            ),
-          ),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide.none,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Future<void> _onFabPressed() async {
-    final overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
-    final value = await showMenu<String>(
-      context: context,
-      color: isDarkMode ? Color(0xFF1E1E1E) : Colors.white,
-      elevation: isDarkMode ? 0 : 12,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(14),
-        side: isDarkMode
-            ? BorderSide(color: Colors.grey[800]!, width: 1)
-            : BorderSide.none,
-      ),
-      position: RelativeRect.fromLTRB(
-        overlay.size.width - 220, // x
-        overlay.size.height - 270, // y (near FAB)
-        16,
-        100,
-      ),
-      items: [
-        PopupMenuItem<String>(
-          value: 'add_category',
-          child: Row(
-            children: [
-              Icon(Icons.category, color: Colors.teal),
-              SizedBox(width: 10),
-              Text(
-                widget.settingsProvider.translate('add_category'),
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  color: isDarkMode ? Colors.white : Colors.black,
-                ),
-              ),
-            ],
-          ),
-        ),
-        PopupMenuItem<String>(
-          value: 'add_diet',
-          child: Row(
-            children: [
-              Icon(Icons.restaurant_menu, color: Colors.teal),
-              SizedBox(width: 10),
-              Text(
-                widget.settingsProvider.translate('add_diet'),
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  color: isDarkMode ? Colors.white : Colors.black,
-                ),
-              ),
-            ],
-          ),
-        ),
-        PopupMenuItem<String>(
-          value: 'add_popular',
-          child: Row(
-            children: [
-              Icon(Icons.star, color: Colors.teal),
-              SizedBox(width: 10),
-              Text(
-                widget.settingsProvider.translate('add_popular'),
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  color: isDarkMode ? Colors.white : Colors.black,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-
-    if (value == 'add_category') {
-    } else if (value == 'add_diet') {
-    } else if (value == 'logout') {}
   }
 }

@@ -10,6 +10,8 @@ class AppTranslations {
       'created_by': 'បង្កើតដោយ៖ គន់​ ថៃណា',
       'for_lessons': 'សម្រាប់មេរៀន Flutter ជាមួយ App Maker Club',
       'profile_name': 'គន់ ថៃណា',
+      'welcome_greeting': 'សួស្ដី',
+      'welcome_subtitle': 'តើអ្នកចង់ញ៉ាំអ្វីថ្ងៃនេះ?',
       'select': 'ជ្រើសរើស',
 
       // Drawer
@@ -79,6 +81,8 @@ class AppTranslations {
       '250 kcal': '250 kcal',
       '100 kcal': '100 kcal',
       '80 kcal': '80 kcal',
+      'no_favorites': 'មិនទាន់មានចំណូលចិត្ត',
+      'add_favorites_hint': 'ប៉ះរូបបេះដូងលើមុខម្ហូប ដើម្បីបន្ថែមទៅក្នុងបញ្ជីចំណូលចិត្តរបស់អ្នក។',
     },
     'English': {
       // Home Page
@@ -90,6 +94,8 @@ class AppTranslations {
       'created_by': 'Created by: Kun Thaina',
       'for_lessons': 'For Flutter lessons with App Maker Club',
       'profile_name': 'Kun Thaina',
+      'welcome_greeting': 'Hello',
+      'welcome_subtitle': 'What do you want to eat today?',
       'select': 'Select',
 
       // Drawer
@@ -159,6 +165,8 @@ class AppTranslations {
       '250 kcal': '250 kcal',
       '100 kcal': '100 kcal',
       '80 kcal': '80 kcal',
+      'no_favorites': 'No favorites yet',
+      'add_favorites_hint': 'Tap the heart icon on any food to add it to your favorites list.',
     },
   };
 }
