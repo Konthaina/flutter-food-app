@@ -2,11 +2,15 @@ import 'package:first_app/models/catagory_model.dart';
 import 'package:first_app/models/diet_model.dart';
 import 'package:first_app/models/popular_model.dart';
 import 'package:first_app/models/profile_model.dart';
+import 'package:first_app/pages/settings.dart';
+import 'package:first_app/providers/settings_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final SettingsProvider settingsProvider;
+
+  const HomePage({super.key, required this.settingsProvider});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -17,6 +21,8 @@ class _HomePageState extends State<HomePage> {
   List<DietModel> dietList = [];
   List<PopularModel> popularList = [];
   List<ProfileModel> profile = [];
+
+  bool get isDarkMode => widget.settingsProvider.isDarkMode;
 
   void _getCatagoryList() {
     catagoryList = CatagoryModel.getCatagoryList();
@@ -77,13 +83,19 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               children: [
                 Text(
-                  'បង្កើតដោយ៖ គន់​ ថៃណា', // "Created by: Kun Thaina" in Khmer
-                  style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+                  widget.settingsProvider.translate('created_by'),
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: isDarkMode ? Colors.grey[500] : Colors.grey[600],
+                  ),
                   textAlign: TextAlign.center,
                 ),
                 Text(
-                  'សម្រាប់មេរៀន Flutter ជាមួយ App Maker Club', // "For Flutter lessons with App Maker Club" in Khmer
-                  style: TextStyle(fontSize: 10, color: Colors.grey[400]),
+                  widget.settingsProvider.translate('for_lessons'),
+                  style: TextStyle(
+                    fontSize: 10,
+                    color: isDarkMode ? Colors.grey[600] : Colors.grey[400],
+                  ),
                   textAlign: TextAlign.center,
                 ),
               ],
@@ -101,8 +113,12 @@ class _HomePageState extends State<HomePage> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
           child: Text(
-            'ពេញនិយម', // "Popular" in Khmer
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w100),
+            widget.settingsProvider.translate('popular'),
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w100,
+              color: isDarkMode ? Colors.white : Colors.grey[800],
+            ),
           ),
         ),
         SizedBox(height: 12),
@@ -117,13 +133,17 @@ class _HomePageState extends State<HomePage> {
               height: 115,
               decoration: BoxDecoration(
                 color: popularList[index].boxIsSelected
-                    ? Color(0xFFB2DFDB)
+                    ? (isDarkMode
+                          ? Colors.teal.withOpacity(0.3)
+                          : Color(0xFFB2DFDB))
                     : Colors.transparent,
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: popularList[index].boxIsSelected
                     ? [
                         BoxShadow(
-                          color: Colors.teal.withValues(alpha: 0.2),
+                          color: isDarkMode
+                              ? Colors.transparent
+                              : Colors.teal.withValues(alpha: 0.2),
                           offset: Offset(0, 4),
                           spreadRadius: 0,
                           blurRadius: 40,
@@ -148,7 +168,7 @@ class _HomePageState extends State<HomePage> {
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w800,
-                          color: Colors.grey[800],
+                          color: isDarkMode ? Colors.white : Colors.grey[800],
                         ),
                       ),
                       Text(
@@ -156,7 +176,9 @@ class _HomePageState extends State<HomePage> {
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
-                          color: Colors.grey[600],
+                          color: isDarkMode
+                              ? Colors.grey[400]
+                              : Colors.grey[600],
                         ),
                       ),
                     ],
@@ -191,7 +213,11 @@ class _HomePageState extends State<HomePage> {
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
           child: Text(
             'ណែនាំ', // "Diets" in Khmer
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w100),
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w100,
+              color: isDarkMode ? Colors.white : Colors.black,
+            ),
           ),
         ),
         SizedBox(
@@ -201,7 +227,11 @@ class _HomePageState extends State<HomePage> {
               return Container(
                 width: 210,
                 decoration: BoxDecoration(
-                  color: dietList[index].boxColor,
+                  color: isDarkMode
+                      ? (dietList[index].viewIsSelected
+                            ? Colors.teal.withOpacity(0.3)
+                            : Colors.grey.withOpacity(0.1))
+                      : dietList[index].boxColor,
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: Column(
@@ -217,7 +247,7 @@ class _HomePageState extends State<HomePage> {
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w800,
-                        color: Colors.grey[800],
+                        color: isDarkMode ? Colors.grey[200] : Colors.grey[800],
                       ),
                     ),
                     Text(
@@ -225,7 +255,7 @@ class _HomePageState extends State<HomePage> {
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
-                        color: Colors.grey[600],
+                        color: isDarkMode ? Colors.grey[400] : Colors.grey[600],
                       ),
                     ),
                     Container(
@@ -239,18 +269,22 @@ class _HomePageState extends State<HomePage> {
                                 : Colors.teal[100]!,
                             dietList[index].viewIsSelected
                                 ? Colors.teal.shade700
-                                : Colors.grey,
+                                : Colors.grey.withOpacity(
+                                    isDarkMode ? 0.6 : 1.0,
+                                  ),
                           ],
                         ),
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Center(
                         child: Text(
-                          'ជ្រើសរើស', // "Select" in Khmer
+                          widget.settingsProvider.translate('select'),
                           style: TextStyle(
                             color: dietList[index].viewIsSelected
                                 ? Colors.white
-                                : Colors.grey[800],
+                                : (isDarkMode
+                                      ? Colors.grey[300]
+                                      : Colors.grey[800]),
                             fontWeight: FontWeight.w600,
                             fontSize: 16,
                           ),
@@ -279,7 +313,11 @@ class _HomePageState extends State<HomePage> {
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 0),
           child: Text(
             'ប្រភេទ', // "Categories" in Khmer
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w100),
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w100,
+              color: isDarkMode ? Colors.white : Colors.black,
+            ),
           ),
         ),
         SizedBox(height: 12),
@@ -294,7 +332,9 @@ class _HomePageState extends State<HomePage> {
               return Container(
                 width: 120,
                 decoration: BoxDecoration(
-                  color: catagoryList[index].boxColor,
+                  color: isDarkMode
+                      ? catagoryList[index].boxColor!.withOpacity(0.3)
+                      : catagoryList[index].boxColor,
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: Column(
@@ -304,7 +344,9 @@ class _HomePageState extends State<HomePage> {
                       height: 80,
                       width: 80,
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: isDarkMode
+                            ? Colors.white.withValues(alpha: 0.9)
+                            : Colors.white,
                         shape: BoxShape.circle,
                       ),
                       child: Padding(
@@ -317,7 +359,7 @@ class _HomePageState extends State<HomePage> {
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w800,
-                        color: Colors.grey[800],
+                        color: isDarkMode ? Colors.grey[200] : Colors.grey[800],
                       ),
                     ),
                   ],
@@ -334,7 +376,7 @@ class _HomePageState extends State<HomePage> {
     return AppBar(
       backgroundColor: Colors.teal,
       title: Text(
-        'ទំព័រដើម', // "Home Page" in Khmer
+        widget.settingsProvider.translate('home_title'),
         style: TextStyle(
           color: Colors.white,
           fontWeight: FontWeight.bold,
@@ -384,6 +426,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildDrawer() {
     return Drawer(
+      backgroundColor: isDarkMode ? Color(0xFF1E1E1E) : Colors.white,
       child: Column(
         children: [
           // Profile Header Section
@@ -409,7 +452,9 @@ class _HomePageState extends State<HomePage> {
                     border: Border.all(color: Colors.white, width: 3),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.2),
+                        color: Colors.black.withValues(
+                          alpha: isDarkMode ? 0.5 : 0.2,
+                        ),
                         blurRadius: 10,
                         offset: const Offset(0, 4),
                       ),
@@ -453,39 +498,49 @@ class _HomePageState extends State<HomePage> {
               children: [
                 _buildDrawerItem(
                   icon: Icons.home_rounded,
-                  title: 'ទំព័រដើម',
+                  title: widget.settingsProvider.translate('home_title'),
                   isSelected: true,
                   onTap: () => Navigator.pop(context),
                 ),
                 _buildDrawerItem(
                   icon: Icons.favorite_rounded,
-                  title: 'ចំណូលចិត្ត',
+                  title: widget.settingsProvider.translate('favorites'),
                   onTap: () => Navigator.pop(context),
                 ),
                 _buildDrawerItem(
                   icon: Icons.restaurant_menu_rounded,
-                  title: 'មុខម្ហូប',
+                  title: widget.settingsProvider.translate('recipes'),
                   onTap: () => Navigator.pop(context),
                 ),
                 _buildDrawerItem(
                   icon: Icons.history_rounded,
-                  title: 'ប្រវត្តិ',
+                  title: widget.settingsProvider.translate('history'),
                   onTap: () => Navigator.pop(context),
                 ),
                 const Divider(height: 32, indent: 16, endIndent: 16),
                 _buildDrawerItem(
                   icon: Icons.person_rounded,
-                  title: 'ផ្ទាល់ខ្លួន',
+                  title: widget.settingsProvider.translate('profile'),
                   onTap: () => Navigator.pop(context),
                 ),
                 _buildDrawerItem(
                   icon: Icons.settings_rounded,
-                  title: 'ការកំណត់',
-                  onTap: () => Navigator.pop(context),
+                  title: widget.settingsProvider.translate('settings'),
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SettingsPage(
+                          settingsProvider: widget.settingsProvider,
+                        ),
+                      ),
+                    );
+                  },
                 ),
                 _buildDrawerItem(
                   icon: Icons.help_outline_rounded,
-                  title: 'ជំនួយ',
+                  title: widget.settingsProvider.translate('help'),
                   onTap: () => Navigator.pop(context),
                 ),
               ],
@@ -497,7 +552,7 @@ class _HomePageState extends State<HomePage> {
             child: ListTile(
               leading: Icon(Icons.logout_rounded, color: Colors.red[400]),
               title: Text(
-                'ចាក់ចេញ',
+                widget.settingsProvider.translate('logout'),
                 style: TextStyle(
                   color: Colors.red[400],
                   fontWeight: FontWeight.w600,
@@ -532,11 +587,18 @@ class _HomePageState extends State<HomePage> {
         borderRadius: BorderRadius.circular(12),
       ),
       child: ListTile(
-        leading: Icon(icon, color: isSelected ? Colors.teal : Colors.grey[700]),
+        leading: Icon(
+          icon,
+          color: isSelected
+              ? Colors.teal
+              : (isDarkMode ? Colors.grey[400] : Colors.grey[700]),
+        ),
         title: Text(
           title,
           style: TextStyle(
-            color: isSelected ? Colors.teal : Colors.grey[800],
+            color: isSelected
+                ? Colors.teal
+                : (isDarkMode ? Colors.grey[200] : Colors.grey[800]),
             fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
           ),
         ),
@@ -548,6 +610,7 @@ class _HomePageState extends State<HomePage> {
 
   void _onTap() {
     showModalBottomSheet(
+      backgroundColor: isDarkMode ? Color(0xFF1E1E1E) : Colors.white,
       context: context,
       elevation: 10,
       shape: const RoundedRectangleBorder(
@@ -562,7 +625,9 @@ class _HomePageState extends State<HomePage> {
               width: 52, // size (width)
               height: 5, // size (height)
               decoration: BoxDecoration(
-                color: Colors.grey[300], // ✅ color
+                color: isDarkMode
+                    ? Colors.grey[700]
+                    : Colors.grey[300], // ✅ color
                 borderRadius: BorderRadius.circular(99),
               ),
             ),
@@ -615,19 +680,25 @@ class _HomePageState extends State<HomePage> {
     return Container(
       margin: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withValues(alpha: 0.2),
-            spreadRadius: 0,
-            blurRadius: 40,
-          ),
-        ],
+        boxShadow: isDarkMode
+            ? []
+            : [
+                BoxShadow(
+                  color: Colors.grey.withValues(alpha: 0.2),
+                  spreadRadius: 0,
+                  blurRadius: 40,
+                ),
+              ],
       ),
       child: TextField(
+        style: TextStyle(color: isDarkMode ? Colors.white : Colors.black),
         decoration: InputDecoration(
-          hintText: 'ស្វែងរក...',
+          hintText: widget.settingsProvider.translate('search_hint'),
+          hintStyle: TextStyle(
+            color: isDarkMode ? Colors.grey[600] : Colors.grey[500],
+          ),
           filled: true,
-          fillColor: Colors.grey[50],
+          fillColor: isDarkMode ? Color(0xFF1E1E1E) : Colors.grey[50],
           prefixIcon: Padding(
             padding: const EdgeInsets.all(12.0),
             child: SvgPicture.asset(
@@ -635,7 +706,10 @@ class _HomePageState extends State<HomePage> {
               width: 20,
               height: 20,
               fit: BoxFit.contain,
-              colorFilter: const ColorFilter.mode(Colors.grey, BlendMode.srcIn),
+              colorFilter: ColorFilter.mode(
+                isDarkMode ? Colors.grey[400]! : Colors.grey,
+                BlendMode.srcIn,
+              ),
             ),
           ),
           suffixIcon: Padding(
@@ -645,7 +719,10 @@ class _HomePageState extends State<HomePage> {
               width: 20,
               height: 20,
               fit: BoxFit.contain,
-              colorFilter: const ColorFilter.mode(Colors.grey, BlendMode.srcIn),
+              colorFilter: ColorFilter.mode(
+                isDarkMode ? Colors.grey[400]! : Colors.grey,
+                BlendMode.srcIn,
+              ),
             ),
           ),
           border: OutlineInputBorder(
@@ -661,12 +738,17 @@ class _HomePageState extends State<HomePage> {
     final overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
     final value = await showMenu<String>(
       context: context,
-      color: Colors.white,
-      elevation: 12,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+      color: isDarkMode ? Color(0xFF1E1E1E) : Colors.white,
+      elevation: isDarkMode ? 0 : 12,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(14),
+        side: isDarkMode 
+            ? BorderSide(color: Colors.grey[800]!, width: 1) 
+            : BorderSide.none,
+      ),
       position: RelativeRect.fromLTRB(
         overlay.size.width - 220, // x
-        overlay.size.height - 250, // y (near FAB)
+        overlay.size.height - 270, // y (near FAB)
         16,
         100,
       ),
@@ -674,12 +756,15 @@ class _HomePageState extends State<HomePage> {
         PopupMenuItem<String>(
           value: 'add_category',
           child: Row(
-            children: const [
+            children: [
               Icon(Icons.category, color: Colors.teal),
               SizedBox(width: 10),
               Text(
-                'បន្ថែមប្រភេទ',
-                style: TextStyle(fontWeight: FontWeight.w600),
+                widget.settingsProvider.translate('add_category'),
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  color: isDarkMode ? Colors.white : Colors.black,
+                ),
               ),
             ],
           ),
@@ -687,12 +772,15 @@ class _HomePageState extends State<HomePage> {
         PopupMenuItem<String>(
           value: 'add_diet',
           child: Row(
-            children: const [
+            children: [
               Icon(Icons.restaurant_menu, color: Colors.teal),
               SizedBox(width: 10),
               Text(
-                'បន្ថែមណែនាំ',
-                style: TextStyle(fontWeight: FontWeight.w600),
+                widget.settingsProvider.translate('add_diet'),
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  color: isDarkMode ? Colors.white : Colors.black,
+                ),
               ),
             ],
           ),
@@ -704,8 +792,11 @@ class _HomePageState extends State<HomePage> {
               Icon(Icons.star, color: Colors.teal),
               SizedBox(width: 10),
               Text(
-                'បន្ថែមពេញនិយម',
-                style: TextStyle(fontWeight: FontWeight.w600),
+                widget.settingsProvider.translate('add_popular'),
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  color: isDarkMode ? Colors.white : Colors.black,
+                ),
               ),
             ],
           ),

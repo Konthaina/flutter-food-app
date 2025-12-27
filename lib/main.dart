@@ -1,20 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:first_app/providers/settings_provider.dart';
 import '../pages/home.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  final SettingsProvider settingsProvider = SettingsProvider();
+
+  @override
+  void initState() {
+    super.initState();
+    // Listen to changes and rebuild
+    settingsProvider.addListener(() {
+      setState(() {});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(fontFamily: 'KantumruyPro'),
-      home: HomePage(),
+      theme: settingsProvider.themeData,
+      home: HomePage(settingsProvider: settingsProvider),
     );
   }
 }
