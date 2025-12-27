@@ -2,7 +2,6 @@ import 'package:first_app/models/catagory_model.dart';
 import 'package:first_app/models/diet_model.dart';
 import 'package:first_app/models/popular_model.dart';
 import 'package:first_app/models/profile_model.dart';
-import 'package:first_app/pages/settings.dart';
 import 'package:first_app/providers/settings_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -35,13 +34,23 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _getInitailInfo();
+    widget.settingsProvider.addListener(_onSettingsChanged);
+  }
+
+  @override
+  void dispose() {
+    widget.settingsProvider.removeListener(_onSettingsChanged);
+    super.dispose();
+  }
+
+  void _onSettingsChanged() {
+    if (mounted) setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBar(),
-      drawer: _buildDrawer(),
       body: ListView(
         physics: const BouncingScrollPhysics(),
         children: [
@@ -177,7 +186,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               Text(
-                'មើលទាំងអស់',
+                widget.settingsProvider.translate('see_all'),
                 style: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
@@ -249,7 +258,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               Text(
-                'មើលទាំងអស់',
+                widget.settingsProvider.translate('see_all'),
                 style: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
@@ -353,7 +362,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               Text(
-                'មើលទាំងអស់',
+                widget.settingsProvider.translate('see_all'),
                 style: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
@@ -445,13 +454,19 @@ class _HomePageState extends State<HomePage> {
           fontSize: 20,
         ),
       ),
-      leading: Builder(
-        builder: (context) => IconButton(
-          onPressed: () => Scaffold.of(context).openDrawer(),
-          icon: Icon(
-            Icons.menu_rounded,
-            color: isDarkMode ? Colors.white : Colors.black,
-            size: 24,
+      leading: Padding(
+        padding: const EdgeInsets.only(left: 16.0),
+        child: Center(
+          child: Container(
+            width: 32,
+            height: 32,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(color: Colors.teal.withValues(alpha: 0.3), width: 1.5),
+            ),
+            child: ClipOval(
+              child: SvgPicture.asset(profile[0].avatarPath!, fit: BoxFit.cover),
+            ),
           ),
         ),
       ),
@@ -504,149 +519,4 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildDrawer() {
-    return Drawer(
-      width: MediaQuery.of(context).size.width * 0.7,
-      backgroundColor: isDarkMode ? const Color(0xFF1E1E1E) : Colors.white,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.zero,
-      ),
-      child: Column(
-        children: [
-          // Premium Header with Gradient
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.only(top: 50, bottom: 20, left: 24, right: 24),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Colors.teal, Colors.teal[700]!],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  width: 60,
-                  height: 60,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(color: Colors.white.withValues(alpha: 0.5), width: 2),
-                  ),
-                  child: ClipOval(
-                    child: SvgPicture.asset(profile[0].avatarPath!, fit: BoxFit.cover),
-                  ),
-                ),
-                const SizedBox(height: 12),
-                Text(
-                  widget.settingsProvider.translate(profile[0].name!),
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  profile[0].email!,
-                  style: TextStyle(
-                    color: Colors.white.withValues(alpha: 0.8),
-                    fontSize: 13,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          // Scrollable Menu Items
-          Expanded(
-            child: ListView(
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
-              children: [
-                _buildDrawerItem(Icons.home_rounded, 'home_title', true, Colors.blue),
-                _buildDrawerItem(Icons.favorite_rounded, 'favorites', false, Colors.redAccent),
-                _buildDrawerItem(Icons.restaurant_menu_rounded, 'recipes', false, Colors.orange),
-                _buildDrawerItem(Icons.history_rounded, 'history', false, Colors.purple),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                  child: Divider(
-                    color: isDarkMode ? Colors.grey[800] : Colors.grey[200],
-                    height: 1,
-                  ),
-                ),
-                _buildDrawerItem(Icons.settings_rounded, 'settings', false, Colors.teal, () {
-                  Navigator.pop(context);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => SettingsPage(settingsProvider: widget.settingsProvider),
-                    ),
-                  );
-                }),
-                _buildDrawerItem(Icons.help_outline_rounded, 'help', false, Colors.grey),
-              ],
-            ),
-          ),
-          // Styled Logout Button at Footer
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: InkWell(
-              onTap: () => Navigator.pop(context),
-              borderRadius: BorderRadius.circular(12),
-              child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                decoration: BoxDecoration(
-                  color: Colors.red.withValues(alpha: 0.08),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Row(
-                  children: [
-                    const Icon(Icons.logout_rounded, color: Colors.red, size: 20),
-                    const SizedBox(width: 12),
-                    Text(
-                      widget.settingsProvider.translate('logout'),
-                      style: const TextStyle(
-                        color: Colors.red,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildDrawerItem(IconData icon, String key, bool isSelected, Color iconColor, [VoidCallback? onTap]) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 4),
-      decoration: BoxDecoration(
-        color: isSelected ? iconColor.withValues(alpha: 0.1) : Colors.transparent,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: ListTile(
-        onTap: onTap ?? () => Navigator.pop(context),
-        leading: Container(
-          padding: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            color: isSelected ? iconColor.withValues(alpha: 0.2) : iconColor.withValues(alpha: 0.1),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Icon(icon, color: iconColor, size: 22),
-        ),
-        title: Text(
-          widget.settingsProvider.translate(key),
-          style: TextStyle(
-            color: isSelected ? (isDarkMode ? Colors.white : Colors.black) : (isDarkMode ? Colors.grey[300] : Colors.grey[800]),
-            fontWeight: isSelected ? FontWeight.bold : FontWeight.w600,
-            fontSize: 15,
-          ),
-        ),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      ),
-    );
-  }
 }

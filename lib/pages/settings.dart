@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:first_app/providers/settings_provider.dart';
+import 'package:first_app/models/profile_model.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class SettingsPage extends StatefulWidget {
   final SettingsProvider settingsProvider;
@@ -11,6 +13,8 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+  final List<ProfileModel> profile = ProfileModel.getDefaultProfile();
+
   @override
   void initState() {
     super.initState();
@@ -56,6 +60,8 @@ class _SettingsPageState extends State<SettingsPage> {
         physics: const BouncingScrollPhysics(),
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         children: [
+          _profileSection(),
+          const SizedBox(height: 24),
           _sectionHeader(widget.settingsProvider.translate('appearance')),
           _settingsGroup([
             _switchTile(
@@ -149,6 +155,71 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
           ),
           const SizedBox(height: 40),
+        ],
+      ),
+    );
+  }
+
+  Widget _profileSection() {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: isDarkMode ? const Color(0xFF1E1E1E).withValues(alpha: 0.5) : Colors.teal.withValues(alpha: 0.05),
+        borderRadius: BorderRadius.circular(24),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 70,
+            height: 70,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(color: Colors.teal.withValues(alpha: 0.2), width: 2),
+            ),
+            child: ClipOval(
+              child: SvgPicture.asset(profile[0].avatarPath!, fit: BoxFit.cover),
+            ),
+          ),
+          const SizedBox(width: 20),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  widget.settingsProvider.translate(profile[0].name!),
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: isDarkMode ? Colors.white : Colors.black,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  profile[0].email!,
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: isDarkMode ? Colors.grey[400] : Colors.grey[600],
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: Colors.teal.withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Text(
+                    widget.settingsProvider.translate('edit_profile'),
+                    style: const TextStyle(
+                      color: Colors.teal,
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );

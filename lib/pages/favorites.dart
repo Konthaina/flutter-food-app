@@ -21,6 +21,17 @@ class _FavoritesPageState extends State<FavoritesPage> {
     super.initState();
     // For demo purposes, we'll just take some items from the popular list
     favorites = PopularModel.getPopularList();
+    widget.settingsProvider.addListener(_onSettingsChanged);
+  }
+
+  @override
+  void dispose() {
+    widget.settingsProvider.removeListener(_onSettingsChanged);
+    super.dispose();
+  }
+
+  void _onSettingsChanged() {
+    if (mounted) setState(() {});
   }
 
   @override

@@ -13,6 +13,7 @@ class AppTranslations {
       'welcome_greeting': 'សួស្ដី',
       'welcome_subtitle': 'តើអ្នកចង់ញ៉ាំអ្វីថ្ងៃនេះ?',
       'select': 'ជ្រើសរើស',
+      'see_all': 'មើលទាំងអស់',
 
       // Drawer
       'favorites': 'ចំណូលចិត្ត',
@@ -83,6 +84,7 @@ class AppTranslations {
       '80 kcal': '80 kcal',
       'no_favorites': 'មិនទាន់មានចំណូលចិត្ត',
       'add_favorites_hint': 'ប៉ះរូបបេះដូងលើមុខម្ហូប ដើម្បីបន្ថែមទៅក្នុងបញ្ជីចំណូលចិត្តរបស់អ្នក។',
+      'edit_profile': 'កែសម្រួលព័ត៌មាន',
     },
     'English': {
       // Home Page
@@ -97,6 +99,7 @@ class AppTranslations {
       'welcome_greeting': 'Hello',
       'welcome_subtitle': 'What do you want to eat today?',
       'select': 'Select',
+      'see_all': 'See All',
 
       // Drawer
       'favorites': 'Favorites',
@@ -167,6 +170,7 @@ class AppTranslations {
       '80 kcal': '80 kcal',
       'no_favorites': 'No favorites yet',
       'add_favorites_hint': 'Tap the heart icon on any food to add it to your favorites list.',
+      'edit_profile': 'Edit Profile',
     },
   };
 }
