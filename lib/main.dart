@@ -1,5 +1,6 @@
 import 'package:first_app/pages/main_screen.dart';
 import 'package:first_app/providers/settings_provider.dart';
+import 'package:first_app/providers/cart_provider.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -15,12 +16,16 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final SettingsProvider settingsProvider = SettingsProvider();
+  final CartProvider cartProvider = CartProvider();
 
   @override
   void initState() {
     super.initState();
     // Listen to changes and rebuild
     settingsProvider.addListener(() {
+      setState(() {});
+    });
+    cartProvider.addListener(() {
       setState(() {});
     });
   }
@@ -30,7 +35,10 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: settingsProvider.themeData,
-      home: MainScreen(settingsProvider: settingsProvider),
+      home: MainScreen(
+        settingsProvider: settingsProvider,
+        cartProvider: cartProvider,
+      ),
     );
   }
 }

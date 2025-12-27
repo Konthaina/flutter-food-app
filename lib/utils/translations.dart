@@ -87,6 +87,7 @@ class AppTranslations {
       'no_favorites': 'មិនទាន់មានចំណូលចិត្ត',
       'add_favorites_hint': 'ប៉ះរូបបេះដូងលើមុខម្ហូប ដើម្បីបន្ថែមទៅក្នុងបញ្ជីចំណូលចិត្តរបស់អ្នក។',
       'edit_profile': 'កែសម្រួលព័ត៌មាន',
+      'total': 'សរុប',
     },
     'English': {
       // Home Page
@@ -175,6 +176,7 @@ class AppTranslations {
       'no_favorites': 'No favorites yet',
       'add_favorites_hint': 'Tap the heart icon on any food to add it to your favorites list.',
       'edit_profile': 'Edit Profile',
+      'total': 'Total',
     },
   };
 }

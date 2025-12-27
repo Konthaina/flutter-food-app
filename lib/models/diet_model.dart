@@ -9,6 +9,7 @@ class DietModel {
   final String calorie;
   final String price;
   final bool viewIsSelected;
+  final bool isFavorite;
 
   DietModel({
     required this.name,
@@ -18,7 +19,30 @@ class DietModel {
     required this.calorie,
     required this.price,
     required this.viewIsSelected,
+    this.isFavorite = false,
   });
+
+  DietModel copyWith({
+    String? name,
+    String? iconPath,
+    String? lavel,
+    String? duration,
+    String? calorie,
+    String? price,
+    bool? viewIsSelected,
+    bool? isFavorite,
+  }) {
+    return DietModel(
+      name: name ?? this.name,
+      iconPath: iconPath ?? this.iconPath,
+      lavel: lavel ?? this.lavel,
+      duration: duration ?? this.duration,
+      calorie: calorie ?? this.calorie,
+      price: price ?? this.price,
+      viewIsSelected: viewIsSelected ?? this.viewIsSelected,
+      isFavorite: isFavorite ?? this.isFavorite,
+    );
+  }
 
   Color? get boxColor => viewIsSelected ? Color(0xFFB2DFDB) : Color(0xFFE0F2F1);
 
@@ -33,6 +57,7 @@ class DietModel {
         calorie: '150 kcal',
         price: '12.00',
         viewIsSelected: true,
+        isFavorite: false,
       ),
     );
     dietList.add(
@@ -44,6 +69,7 @@ class DietModel {
         calorie: '250 kcal',
         price: '15.50',
         viewIsSelected: false,
+        isFavorite: false,
       ),
     );
     dietList.add(
@@ -55,6 +81,7 @@ class DietModel {
         calorie: '100 kcal',
         price: '2.50',
         viewIsSelected: false,
+        isFavorite: false,
       ),
     );
     return dietList;

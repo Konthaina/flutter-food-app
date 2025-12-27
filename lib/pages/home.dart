@@ -3,13 +3,19 @@ import 'package:first_app/models/diet_model.dart';
 import 'package:first_app/models/popular_model.dart';
 import 'package:first_app/models/profile_model.dart';
 import 'package:first_app/providers/settings_provider.dart';
+import 'package:first_app/providers/cart_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class HomePage extends StatefulWidget {
   final SettingsProvider settingsProvider;
+  final CartProvider cartProvider;
 
-  const HomePage({super.key, required this.settingsProvider});
+  const HomePage({
+    super.key,
+    required this.settingsProvider,
+    required this.cartProvider,
+  });
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -28,6 +34,14 @@ class _HomePageState extends State<HomePage> {
     dietList = DietModel.getDietList();
     popularList = PopularModel.getPopularList();
     profile = ProfileModel.getDefaultProfile();
+
+    // Initial sync with cart and favorites
+    for (int i = 0; i < dietList.length; i++) {
+      dietList[i] = dietList[i].copyWith(
+        viewIsSelected: widget.cartProvider.isInCart(dietList[i].name),
+        isFavorite: widget.cartProvider.isFavorite(dietList[i].name),
+      );
+    }
   }
 
   @override
@@ -35,16 +49,28 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     _getInitailInfo();
     widget.settingsProvider.addListener(_onSettingsChanged);
+    widget.cartProvider.addListener(_onSettingsChanged);
   }
 
   @override
   void dispose() {
     widget.settingsProvider.removeListener(_onSettingsChanged);
+    widget.cartProvider.removeListener(_onSettingsChanged);
     super.dispose();
   }
 
   void _onSettingsChanged() {
-    if (mounted) setState(() {});
+    if (mounted) {
+      setState(() {
+        // Sync cart and favorite state with our local list
+        for (int i = 0; i < dietList.length; i++) {
+          dietList[i] = dietList[i].copyWith(
+            viewIsSelected: widget.cartProvider.isInCart(dietList[i].name),
+            isFavorite: widget.cartProvider.isFavorite(dietList[i].name),
+          );
+        }
+      });
+    }
   }
 
   @override
@@ -270,73 +296,146 @@ class _HomePageState extends State<HomePage> {
         ),
         const SizedBox(height: 16),
         SizedBox(
-          height: 250,
+          height: 265,
           child: ListView.separated(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
             scrollDirection: Axis.horizontal,
+            clipBehavior: Clip.none,
             itemBuilder: (context, index) {
               final isSelected = dietList[index].viewIsSelected;
               return Container(
                 width: 210,
                 decoration: BoxDecoration(
-                  color: Colors.transparent,
+                  color: isDarkMode ? const Color(0xFF1E1E1E) : Colors.white,
                   borderRadius: BorderRadius.circular(24),
+                  boxShadow: [
+                    BoxShadow(
+                      color: isDarkMode
+                          ? Colors.black.withValues(alpha: 0.3)
+                          : Colors.teal.withValues(alpha: 0.08),
+                      blurRadius: 20,
+                      offset: const Offset(0, 10),
+                    ),
+                  ],
                 ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                child: Stack(
                   children: [
-                    Image.asset(
-                      dietList[index].iconPath,
-                      height: 90,
-                      width: 90,
-                      fit: BoxFit.contain,
-                    ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                      child: Text(
-                        widget.settingsProvider.translate(dietList[index].name),
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.bold,
-                          color: isDarkMode ? Colors.white : Colors.black,
+                      padding: const EdgeInsets.all(20.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Center(
+                            child: Image.asset(
+                              dietList[index].iconPath,
+                              height: 80,
+                              width: 80,
+                              fit: BoxFit.contain,
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+                          Text(
+                            widget.settingsProvider.translate(dietList[index].name),
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: isDarkMode ? Colors.white : Colors.black,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            widget.settingsProvider.translate(dietList[index].duration),
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: isDarkMode ? Colors.grey[500] : Colors.grey[600],
+                            ),
+                          ),
+                          const Spacer(),
+                          Text(
+                            '\$${dietList[index].price}',
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.teal,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Positioned(
+                      right: 0,
+                      top: 0,
+                      child: GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onTap: () {
+                          widget.cartProvider.toggleFavorite(dietList[index]);
+                          setState(() {});
+                        },
+                        child: Container(
+                          height: 40,
+                          width: 40,
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(20),
+                              topRight: Radius.circular(24),
+                            ),
+                          ),
+                          child: Icon(
+                            dietList[index].isFavorite
+                                ? Icons.favorite_rounded
+                                : Icons.favorite_border_rounded,
+                            color: dietList[index].isFavorite
+                                ? Colors.redAccent
+                                : Colors.grey[400],
+                            size: 20,
+                          ),
                         ),
                       ),
                     ),
-                    Text(
-                      '${widget.settingsProvider.translate(dietList[index].lavel)} | ${widget.settingsProvider.translate(dietList[index].duration)} | ${widget.settingsProvider.translate(dietList[index].calorie)}',
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: isDarkMode ? Colors.grey[500] : Colors.grey[600],
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      '\$${dietList[index].price}',
-                      style: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.teal,
-                      ),
-                    ),
-                    Container(
-                      height: 44,
-                      width: 130,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: isSelected
-                              ? [Colors.teal, Colors.teal[700]!]
-                              : [Colors.grey[200]!, Colors.grey[200]!],
-                        ),
-                        borderRadius: BorderRadius.circular(22),
-                      ),
-                      child: Center(
-                        child: Text(
-                          widget.settingsProvider.translate('select'),
-                          style: TextStyle(
-                            color: isSelected ? Colors.white : Colors.grey[600],
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
+                    Positioned(
+                      right: 0,
+                      bottom: 0,
+                      child: GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onTap: () {
+                          widget.cartProvider.toggleItem(dietList[index]);
+                          setState(() {});
+                        },
+                        child: Container(
+                          height: 50, // Slightly larger hit area
+                          width: 50,  // Slightly larger hit area
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: !isSelected
+                                  ? [Colors.teal, Colors.teal[700]!]
+                                  : [
+                                      isDarkMode
+                                          ? Colors.grey[800]!
+                                          : Colors.grey[200]!,
+                                      isDarkMode
+                                          ? Colors.grey[800]!
+                                          : Colors.grey[200]!
+                                    ],
+                            ),
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(25),
+                              bottomRight: Radius.circular(24),
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: !isSelected
+                                    ? Colors.teal.withValues(alpha: 0.3)
+                                    : Colors.black.withValues(alpha: 0.05),
+                                blurRadius: 10,
+                                offset: const Offset(-2, -2),
+                              ),
+                            ],
+                          ),
+                          child: Icon(
+                            isSelected ? Icons.horizontal_rule_rounded : Icons.add_rounded,
+                            color: !isSelected ? Colors.white : Colors.grey[600],
+                            size: 26, // Slightly larger icon
                           ),
                         ),
                       ),

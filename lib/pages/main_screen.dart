@@ -4,11 +4,17 @@ import 'settings.dart';
 import 'favorites.dart';
 import 'cart.dart';
 import '../providers/settings_provider.dart';
+import '../providers/cart_provider.dart';
 
 class MainScreen extends StatefulWidget {
   final SettingsProvider settingsProvider;
+  final CartProvider cartProvider;
 
-  const MainScreen({super.key, required this.settingsProvider});
+  const MainScreen({
+    super.key,
+    required this.settingsProvider,
+    required this.cartProvider,
+  });
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -16,18 +22,36 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
+  late final List<Widget> _pages;
 
   bool get isDarkMode => widget.settingsProvider.isDarkMode;
 
   @override
   void initState() {
     super.initState();
+    _pages = [
+      HomePage(
+        settingsProvider: widget.settingsProvider,
+        cartProvider: widget.cartProvider,
+      ),
+      FavoritesPage(
+        settingsProvider: widget.settingsProvider,
+        cartProvider: widget.cartProvider,
+      ),
+      CartPage(
+        settingsProvider: widget.settingsProvider,
+        cartProvider: widget.cartProvider,
+      ),
+      SettingsPage(settingsProvider: widget.settingsProvider),
+    ];
     widget.settingsProvider.addListener(_onSettingsChanged);
+    widget.cartProvider.addListener(_onSettingsChanged);
   }
 
   @override
   void dispose() {
     widget.settingsProvider.removeListener(_onSettingsChanged);
+    widget.cartProvider.removeListener(_onSettingsChanged);
     super.dispose();
   }
 
@@ -37,22 +61,10 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final List<Widget> pages = [
-      HomePage(settingsProvider: widget.settingsProvider),
-      FavoritesPage(settingsProvider: widget.settingsProvider),
-      CartPage(settingsProvider: widget.settingsProvider),
-      SettingsPage(settingsProvider: widget.settingsProvider),
-    ];
-
     return Scaffold(
-      body: IndexedStack(
-        index: _selectedIndex,
-        children: pages,
-      ),
+      body: IndexedStack(index: _selectedIndex, children: _pages),
       bottomNavigationBar: Container(
-        decoration: const BoxDecoration(
-          color: Colors.transparent,
-        ),
+        decoration: const BoxDecoration(color: Colors.transparent),
         child: SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
@@ -62,12 +74,20 @@ class _MainScreenState extends State<MainScreen> {
               backgroundColor: Colors.transparent,
               elevation: 0,
               selectedItemColor: Colors.teal,
-              unselectedItemColor: isDarkMode ? Colors.grey[600] : Colors.grey[400],
+              unselectedItemColor: isDarkMode
+                  ? Colors.grey[600]
+                  : Colors.grey[400],
               showSelectedLabels: true,
               showUnselectedLabels: true,
               type: BottomNavigationBarType.fixed,
-              selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
-              unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w500, fontSize: 12),
+              selectedLabelStyle: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 12,
+              ),
+              unselectedLabelStyle: const TextStyle(
+                fontWeight: FontWeight.w500,
+                fontSize: 12,
+              ),
               items: [
                 BottomNavigationBarItem(
                   icon: const Icon(Icons.home_rounded),
@@ -80,8 +100,18 @@ class _MainScreenState extends State<MainScreen> {
                   label: widget.settingsProvider.translate('favorites'),
                 ),
                 BottomNavigationBarItem(
-                  icon: const Icon(Icons.shopping_cart_rounded),
-                  activeIcon: const Icon(Icons.shopping_cart_rounded, size: 28),
+                  icon: Badge(
+                    label: Text(widget.cartProvider.items.length.toString()),
+                    isLabelVisible: widget.cartProvider.items.isNotEmpty,
+                    backgroundColor: Colors.teal,
+                    child: const Icon(Icons.shopping_cart_rounded),
+                  ),
+                  activeIcon: Badge(
+                    label: Text(widget.cartProvider.items.length.toString()),
+                    isLabelVisible: widget.cartProvider.items.isNotEmpty,
+                    backgroundColor: Colors.teal,
+                    child: const Icon(Icons.shopping_cart_rounded, size: 28),
+                  ),
                   label: widget.settingsProvider.translate('cart'),
                 ),
                 BottomNavigationBarItem(
