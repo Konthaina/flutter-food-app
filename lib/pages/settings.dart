@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:first_app/providers/settings_provider.dart';
 import 'package:first_app/models/profile_model.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flag/flag.dart';
 
 class SettingsPage extends StatefulWidget {
   final SettingsProvider settingsProvider;
@@ -337,16 +338,16 @@ class _SettingsPageState extends State<SettingsPage> {
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            _languageOption('ភាសាខ្មែរ', '🇰🇭'),
+            _languageOption('ភាសាខ្មែរ', FlagsCode.KH),
             const SizedBox(height: 12),
-            _languageOption('English', '🇺🇸'),
+            _languageOption('English', FlagsCode.US),
           ],
         ),
       ),
     );
   }
 
-  Widget _languageOption(String lang, String flag) {
+  Widget _languageOption(String lang, FlagsCode flag) {
     bool isSelected = widget.settingsProvider.language == lang;
     return InkWell(
       onTap: () {
@@ -360,13 +361,16 @@ class _SettingsPageState extends State<SettingsPage> {
         decoration: BoxDecoration(
           color: isSelected ? Colors.teal.withValues(alpha: 0.1) : Colors.transparent,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: isSelected ? Colors.teal : Colors.transparent,
-          ),
         ),
         child: Row(
           children: [
-            Text(flag, style: const TextStyle(fontSize: 24)),
+            Flag.fromCode(
+              flag,
+              height: 24,
+              width: 32,
+              fit: BoxFit.cover,
+              borderRadius: 4,
+            ),
             const SizedBox(width: 16),
             Text(
               lang,
