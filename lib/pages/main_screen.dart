@@ -67,7 +67,7 @@ class _MainScreenState extends State<MainScreen> {
         decoration: const BoxDecoration(color: Colors.transparent),
         child: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
+            padding: const EdgeInsets.symmetric(vertical: 4),
             child: BottomNavigationBar(
               currentIndex: _selectedIndex,
               onTap: (index) => setState(() => _selectedIndex = index),
