@@ -566,9 +566,8 @@ class _HomePageState extends State<HomePage> {
           child: Container(
             width: 32,
             height: 32,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               shape: BoxShape.circle,
-              border: Border.all(color: Colors.teal.withValues(alpha: 0.3), width: 1.5),
             ),
             child: ClipOval(
               child: SvgPicture.asset(profile[0].avatarPath!, fit: BoxFit.cover),
