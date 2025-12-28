@@ -340,7 +340,7 @@ class _SettingsPageState extends State<SettingsPage> {
           children: [
             _languageOption('ភាសាខ្មែរ', FlagsCode.KH),
             const SizedBox(height: 12),
-            _languageOption('English', FlagsCode.US),
+            _languageOption('English', FlagsCode.GB),
           ],
         ),
       ),
