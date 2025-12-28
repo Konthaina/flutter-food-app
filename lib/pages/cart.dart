@@ -73,11 +73,9 @@ class _CartPageState extends State<CartPage> {
                         decoration: BoxDecoration(
                           color: isDarkMode ? const Color(0xFF1E1E1E) : Colors.white,
                           borderRadius: BorderRadius.circular(20),
-                          boxShadow: [
+                          boxShadow: isDarkMode ? [] : [
                             BoxShadow(
-                              color: isDarkMode 
-                                  ? Colors.black.withValues(alpha: 0.2) 
-                                  : Colors.grey.withValues(alpha: 0.05),
+                              color: Colors.grey.withValues(alpha: 0.05),
                               blurRadius: 10,
                               offset: const Offset(0, 4),
                             ),
@@ -174,19 +172,21 @@ class _CartPageState extends State<CartPage> {
 
   Widget _checkoutSection() {
     return Container(
-      padding: const EdgeInsets.all(24),
+      margin: const EdgeInsets.fromLTRB(20, 0, 20, 10),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
       decoration: BoxDecoration(
         color: isDarkMode ? const Color(0xFF1E1E1E) : Colors.white,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
-        boxShadow: [
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: isDarkMode ? [] : [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.1),
-            blurRadius: 20,
-            offset: const Offset(0, -5),
+            color: Colors.teal.withValues(alpha: 0.05),
+            blurRadius: 15,
+            offset: const Offset(0, 5),
           ),
         ],
       ),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -194,34 +194,37 @@ class _CartPageState extends State<CartPage> {
               Text(
                 widget.settingsProvider.translate('total'),
                 style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: isDarkMode ? Colors.white : Colors.black,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: isDarkMode ? Colors.grey[400] : Colors.grey[700],
                 ),
               ),
               Text(
                 '\$${widget.cartProvider.total.toStringAsFixed(2)}',
                 style: const TextStyle(
-                  fontSize: 24,
+                  fontSize: 20,
                   fontWeight: FontWeight.bold,
                   color: Colors.teal,
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: 16),
           SizedBox(
             width: double.infinity,
-            height: 56,
+            height: 50,
             child: ElevatedButton(
               onPressed: () {},
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.teal,
                 foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
                 elevation: 0,
               ),
-              child: const Text('Checkout', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              child: Text(
+                'Checkout',
+                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
             ),
           ),
         ],

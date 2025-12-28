@@ -94,7 +94,7 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
         backgroundColor: Colors.teal,
-        elevation: 4,
+        elevation: isDarkMode ? 0 : 4,
         child: const Icon(Icons.add_rounded, color: Colors.white, size: 28),
       ),
     );
@@ -308,11 +308,9 @@ class _HomePageState extends State<HomePage> {
                 decoration: BoxDecoration(
                   color: isDarkMode ? const Color(0xFF1E1E1E) : Colors.white,
                   borderRadius: BorderRadius.circular(24),
-                  boxShadow: [
+                  boxShadow: isDarkMode ? [] : [
                     BoxShadow(
-                      color: isDarkMode
-                          ? Colors.black.withValues(alpha: 0.3)
-                          : Colors.teal.withValues(alpha: 0.08),
+                      color: Colors.teal.withValues(alpha: 0.08),
                       blurRadius: 20,
                       offset: const Offset(0, 10),
                     ),
@@ -422,7 +420,7 @@ class _HomePageState extends State<HomePage> {
                               topLeft: Radius.circular(25),
                               bottomRight: Radius.circular(24),
                             ),
-                            boxShadow: [
+                            boxShadow: isDarkMode ? [] : [
                               BoxShadow(
                                 color: !isSelected
                                     ? Colors.teal.withValues(alpha: 0.3)

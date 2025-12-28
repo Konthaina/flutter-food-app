@@ -110,11 +110,9 @@ class _FavoritesPageState extends State<FavoritesPage> {
       decoration: BoxDecoration(
         color: isDarkMode ? const Color(0xFF1E1E1E) : Colors.white,
         borderRadius: BorderRadius.circular(20),
-        boxShadow: [
+        boxShadow: isDarkMode ? [] : [
           BoxShadow(
-            color: isDarkMode 
-                ? Colors.black.withValues(alpha: 0.2) 
-                : Colors.grey.withValues(alpha: 0.05),
+            color: Colors.grey.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),

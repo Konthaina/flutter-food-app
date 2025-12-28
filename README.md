@@ -1,16 +1,55 @@
-# first_app
+# Flutter Food App
 
-A new Flutter project.
+A modern, high-performance Food Delivery Application built with Flutter. This app features a clean Material 3 UI, multi-language support (English and Khmer), and dark mode compatibility.
+
+## Features
+
+- **Material 3 UI**: Clean and premium design.
+- **Dark Mode**: Fully supports native dark mode with adaptive styling.
+- **Multilingual**: Easily switch between English and Khmer.
+- **Cart Management**: Add diets to cart, track totals, and manage favorites.
+- **Responsive Layout**: Optimized for various screen sizes.
+
+## Screenshots
+
+<p align="center">
+  <img src="assets/screenshots/Screenshot_1766904850.png" width="200" alt="Home Screen">
+  <img src="assets/screenshots/Screenshot_1766904861.png" width="200" alt="Cart Screen">
+  <img src="assets/screenshots/Screenshot_1766904864.png" width="200" alt="Favorites Screen">
+  <img src="assets/screenshots/Screenshot_1766904866.png" width="200" alt="Settings Screen">
+</p>
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+### Prerequisites
 
-A few resources to get you started if this is your first Flutter project:
+- Flutter SDK
+- Dart SDK
+- Android Studio / VS Code
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### Installation
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/flutter-food-app.git
+   ```
+2. Navigate to the project directory:
+   ```bash
+   cd flutter-food-app
+   ```
+3. Install dependencies:
+   ```bash
+   flutter pub get
+   ```
+4. Run the application:
+   ```bash
+   flutter run
+   ```
+
+## Folder Structure
+
+- `lib/models`: Data models and mock services.
+- `lib/pages`: Application screens (Home, Cart, Favorites, Settings).
+- `lib/providers`: State management using ChangeNotifier.
+- `assets/icons`: SVG icons used throughout the app.
+- `assets/screenshots`: UI previews.
