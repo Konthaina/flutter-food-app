@@ -11,12 +11,17 @@ A modern, high-performance Food Delivery Application built with Flutter. This ap
 - **Responsive Layout**: Optimized for various screen sizes.
 
 ## Screenshots
-
+### Mobile
 <p align="center">
   <img src="assets/screenshots/Screenshot_1766904850.png" width="200" alt="Home Screen">
   <img src="assets/screenshots/Screenshot_1766904861.png" width="200" alt="Cart Screen">
   <img src="assets/screenshots/Screenshot_1766904864.png" width="200" alt="Favorites Screen">
   <img src="assets/screenshots/Screenshot_1766904866.png" width="200" alt="Settings Screen">
+</p>
+
+### Window
+<p align="center">
+  <img src="assets/screenshots/image.png" width="800" alt="Home Screen">
 </p>
 
 ## Getting Started
